@@ -27,7 +27,7 @@ export default function WhatsIncludedPage() {
           />
           <ThemeToggle compact />
           <select
-            className="rounded-md border border-[var(--line)] bg-[var(--surface)] px-2 py-1 text-sm text-[var(--ink)]"
+            className="sh-select rounded-md border border-[var(--line)] bg-[var(--surface)] py-1.5 pl-3 text-sm text-[var(--ink)]"
             value={locale}
             onChange={(e) => setLocale(e.target.value as Locale)}
             aria-label={t.common.language}

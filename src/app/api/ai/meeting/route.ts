@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { openAiOptionsFromRequest } from "@/lib/ai/client";
 import { runMeetingSummary } from "@/lib/ai/pipelines";
 
 export async function POST(request: Request) {
@@ -6,9 +7,10 @@ export async function POST(request: Request) {
   if (!body.text?.trim()) {
     return NextResponse.json({ error: "text required" }, { status: 400 });
   }
-  const result = await runMeetingSummary({
+  const { result, mode } = await runMeetingSummary({
     text: body.text,
     locale: body.locale ?? "en-AU",
+    ai: openAiOptionsFromRequest(request),
   });
-  return NextResponse.json({ result, mode: process.env.OPENAI_API_KEY ? "live" : "mock" });
+  return NextResponse.json({ result, mode });
 }

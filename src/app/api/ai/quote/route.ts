@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { openAiOptionsFromRequest } from "@/lib/ai/client";
 import { runQuoteDraft } from "@/lib/ai/pipelines";
 import type { RateItem } from "@/lib/ai/schemas";
 
@@ -12,11 +13,12 @@ export async function POST(request: Request) {
   if (!body.job?.trim()) {
     return NextResponse.json({ error: "job required" }, { status: 400 });
   }
-  const result = await runQuoteDraft({
+  const { result, mode } = await runQuoteDraft({
     job: body.job,
     clientName: body.clientName ?? "",
     rates: body.rates ?? [],
     locale: body.locale ?? "en-AU",
+    ai: openAiOptionsFromRequest(request),
   });
-  return NextResponse.json({ result, mode: process.env.OPENAI_API_KEY ? "live" : "mock" });
+  return NextResponse.json({ result, mode });
 }

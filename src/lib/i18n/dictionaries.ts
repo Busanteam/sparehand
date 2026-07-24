@@ -22,6 +22,7 @@ export type Dictionary = {
     quotes: string;
     rates: string;
     integrations: string;
+    settings: string;
   };
   dashboard: {
     title: string;
@@ -89,6 +90,24 @@ export type Dictionary = {
     deferredTitle: string;
     deferredBody: string;
   };
+  settings: {
+    title: string;
+    hint: string;
+    brainTitle: string;
+    brainBody: string;
+    apiKey: string;
+    model: string;
+    baseUrl: string;
+    baseUrlPlaceholder: string;
+    privacyNote: string;
+    saveKey: string;
+    clearKey: string;
+    showKey: string;
+    hideKey: string;
+    bannerTitle: string;
+    bannerBody: string;
+    bannerCta: string;
+  };
   help: {
     openLabel: string;
     howToUse: string;
@@ -102,6 +121,7 @@ export type Dictionary = {
     quotes: HelpBlock;
     rates: HelpBlock;
     integrations: HelpBlock;
+    settings: HelpBlock;
   };
   scope: {
     title: string;
@@ -159,6 +179,7 @@ const enAU: Dictionary = {
     quotes: "Quotes",
     rates: "Rate card",
     integrations: "Integrations",
+    settings: "AI key",
   },
   dashboard: {
     title: "Workspace",
@@ -227,6 +248,27 @@ const enAU: Dictionary = {
     deferredTitle: "Not required to get value today",
     deferredBody:
       "Heavy desktop robots, live Excel syncing, and deep Monday/ClickUp rebuilds are not part of this simple starter. Most owners start with Inbox, Meetings, Docs and Quotes.",
+  },
+  settings: {
+    title: "Your AI key",
+    hint: "SpareHand is the workspace. Your company brings the AI brain — so you keep control of cost and provider.",
+    brainTitle: "Bring your own AI (BYOK)",
+    brainBody:
+      "Paste the API key from the AI provider your business already uses (OpenAI or an OpenAI-compatible endpoint). We do not charge AI usage per company — your key pays for your own usage.",
+    apiKey: "API key",
+    model: "Model name",
+    baseUrl: "API base URL (optional)",
+    baseUrlPlaceholder: "Leave blank for OpenAI, or paste OpenRouter/Azure-compatible URL",
+    privacyNote:
+      "Your key is stored only in this browser and sent with each AI request to generate drafts. It is not saved in our database.",
+    saveKey: "Save in this browser",
+    clearKey: "Remove key",
+    showKey: "Show",
+    hideKey: "Hide",
+    bannerTitle: "Add your AI key to unlock live drafts",
+    bannerBody:
+      "Without a key, SpareHand still shows the workflow using sample drafts. Add your company key under AI key to use your real model.",
+    bannerCta: "Open AI key settings",
   },
   help: {
     openLabel: "How to use this page",
@@ -316,6 +358,19 @@ const enAU: Dictionary = {
         "Most small teams get value without any integration on day one.",
       ],
     },
+    settings: {
+      title: "Your AI key",
+      steps: [
+        "Open your AI provider account (for example OpenAI) and create an API key.",
+        "Paste the key here and choose the model your team uses.",
+        "Optional: set a compatible base URL if you use OpenRouter or similar.",
+        "Save, then try Inbox or Quotes — drafts will use your key.",
+      ],
+      tips: [
+        "Each company pays its own AI bill — SpareHand is the shared workspace body.",
+        "Clear the key on shared computers when you finish.",
+      ],
+    },
   },
   scope: {
     title: "What SpareHand covers",
@@ -352,6 +407,10 @@ const enAU: Dictionary = {
       {
         title: "Optional email hook-up",
         body: "Connect tools like Zapier later so new emails can flow into SpareHand.",
+      },
+      {
+        title: "Use your own AI key",
+        body: "Each business connects its own OpenAI (or compatible) key, so AI cost stays with the company that uses it.",
       },
     ],
     notIncluded: [
@@ -418,6 +477,7 @@ const ko: Dictionary = {
     quotes: "견적",
     rates: "단가표",
     integrations: "연동",
+    settings: "AI 키",
   },
   dashboard: {
     title: "워크스페이스",
@@ -486,6 +546,27 @@ const ko: Dictionary = {
     deferredTitle: "지금은 없어도 됩니다",
     deferredBody:
       "데스크톱 자동화 로봇, 엑셀 실시간 동기화, Monday/ClickUp 대규모 개편은 이 시작용 툴 범위가 아닙니다. 대부분 사장님은 문의·회의·문서·견적부터 시작하시면 됩니다.",
+  },
+  settings: {
+    title: "AI 키 설정",
+    hint: "SpareHand는 워크스페이스(몸체)입니다. AI 두뇌는 각 회사가 쓰는 키로 연결해, 비용과 제공사를 직접 통제합니다.",
+    brainTitle: "내 AI 키 연결 (BYOK)",
+    brainBody:
+      "회사에서 이미 쓰는 AI 제공사(OpenAI 또는 OpenAI 호환)의 API 키를 붙여넣으세요. 회사마다 AI 사용료를 저희가 대신 결제하지 않습니다 — 각 회사 키가 본인 사용량만 청구합니다.",
+    apiKey: "API 키",
+    model: "모델 이름",
+    baseUrl: "API Base URL (선택)",
+    baseUrlPlaceholder: "OpenAI면 비워두세요. OpenRouter/Azure 호환 URL도 가능",
+    privacyNote:
+      "키는 이 브라우저에만 저장되며, 초안 생성 요청 때만 서버로 전달됩니다. 저희 데이터베이스에는 저장하지 않습니다.",
+    saveKey: "이 브라우저에 저장",
+    clearKey: "키 삭제",
+    showKey: "보기",
+    hideKey: "숨기기",
+    bannerTitle: "실제 AI 초안을 쓰려면 키를 추가하세요",
+    bannerBody:
+      "키가 없으면 샘플 초안으로 흐름만 보여 줍니다. AI 키 메뉴에서 회사 키를 넣으면 실제 모델이 사용됩니다.",
+    bannerCta: "AI 키 설정 열기",
   },
   help: {
     openLabel: "이 페이지 사용법",
@@ -573,6 +654,19 @@ const ko: Dictionary = {
       ],
       tips: ["대부분의 소규모 팀은 첫날 연동 없이도 충분합니다."],
     },
+    settings: {
+      title: "AI 키",
+      steps: [
+        "AI 제공사(예: OpenAI)에서 API 키를 발급받습니다.",
+        "여기에 키를 붙여넣고 팀에서 쓰는 모델을 입력합니다.",
+        "OpenRouter 등을 쓰면 선택적으로 Base URL을 넣습니다.",
+        "저장한 뒤 문의/견적 도구를 실행하면 회사 키로 초안이 만들어집니다.",
+      ],
+      tips: [
+        "AI 비용은 각 회사가 부담합니다 — SpareHand는 공통 워크스페이스 몸체입니다.",
+        "공용 PC에서는 작업 후 키를 삭제하세요.",
+      ],
+    },
   },
   scope: {
     title: "SpareHand가 도와주는 것",
@@ -609,6 +703,10 @@ const ko: Dictionary = {
       {
         title: "선택적 이메일 연결",
         body: "나중에 Zapier 등으로 새 메일을 SpareHand로 흘려보낼 수 있습니다.",
+      },
+      {
+        title: "내 AI 키 사용",
+        body: "각 회사가 자체 OpenAI(또는 호환) 키를 연결해, AI 비용은 사용하는 회사가 부담합니다.",
       },
     ],
     notIncluded: [

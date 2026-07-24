@@ -11,6 +11,7 @@ import {
   TextArea,
 } from "@/components/ui";
 import type { InboxResult } from "@/lib/ai/schemas";
+import { aiFetchInit } from "@/lib/storage/ai-config";
 import { pushHistory } from "@/lib/storage/local";
 
 export default function InboxPage() {
@@ -25,11 +26,13 @@ export default function InboxPage() {
     setLoading(true);
     setError("");
     try {
-      const res = await fetch("/api/ai/inbox", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ text, locale }),
-      });
+      const res = await fetch(
+        "/api/ai/inbox",
+        aiFetchInit({
+          method: "POST",
+          body: JSON.stringify({ text, locale }),
+        }),
+      );
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "failed");
       setResult(data.result);

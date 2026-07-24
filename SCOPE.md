@@ -13,6 +13,7 @@ Australian SME tool to stretch limited office headcount through repeatable admin
 | CSV import / export (Excel-adjacent) | Rates + jobs history: CSV upload/download | Reliable; not live Excel COM sync |
 | Zapier / no-code inbound | `POST /api/webhooks/inbound` with shared secret → creates a job item | Documented for Zapier Webhooks |
 | Quote drafts from your rates | Quotes module + GST 10% | AU tax invoice-style draft PDF |
+| Bring-your-own AI key (BYOK) | Settings: customer pastes OpenAI / compatible key in the browser | Platform does not pay every company's AI bill |
 | Bilingual UI | `en-AU` default, `ko` supported | Dictionary + locale switcher |
 
 ## Deferred / not in this codebase (honest limits)

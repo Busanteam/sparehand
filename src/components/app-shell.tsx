@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import {
   FileText,
   Inbox,
+  KeyRound,
   LayoutDashboard,
   NotebookPen,
   Plug,
@@ -12,6 +13,7 @@ import {
   Tags,
 } from "lucide-react";
 import { useI18n } from "@/components/i18n-provider";
+import { AiKeyBanner } from "@/components/ai-key-banner";
 import { ThemeToggle } from "@/components/theme-toggle";
 import type { Locale } from "@/lib/i18n/types";
 
@@ -23,6 +25,7 @@ const links = [
   { href: "/app/quotes", key: "quotes", icon: Receipt },
   { href: "/app/rates", key: "rates", icon: Tags },
   { href: "/app/integrations", key: "integrations", icon: Plug },
+  { href: "/app/settings", key: "settings", icon: KeyRound },
 ] as const;
 
 export function AppShell({ children }: { children: React.ReactNode }) {
@@ -41,7 +44,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             <label className="flex items-center gap-2 text-sm text-[var(--muted)]">
               <span className="sr-only">{t.common.language}</span>
               <select
-                className="rounded-md border border-[var(--line)] bg-[var(--surface)] px-2 py-1 text-[var(--ink)]"
+                className="sh-select rounded-md border border-[var(--line)] bg-[var(--surface)] py-1.5 pl-3 text-[var(--ink)]"
                 value={locale}
                 onChange={(e) => setLocale(e.target.value as Locale)}
               >
@@ -71,7 +74,10 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           })}
         </nav>
       </aside>
-      <main className="px-5 py-6 sm:px-8 sm:py-8">{children}</main>
+      <main className="px-5 py-6 sm:px-8 sm:py-8">
+        {pathname !== "/app/settings" ? <AiKeyBanner /> : null}
+        {children}
+      </main>
     </div>
   );
 }

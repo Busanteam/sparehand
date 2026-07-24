@@ -28,7 +28,7 @@ export function ThemeToggle({ compact = false }: { compact?: boolean }) {
     <label className="flex items-center gap-2 text-sm text-[var(--muted)]">
       <span className="sr-only">{t.common.theme}</span>
       <select
-        className="rounded-md border border-[var(--line)] bg-[var(--surface)] px-2 py-1 text-[var(--ink)]"
+        className="sh-select rounded-md border border-[var(--line)] bg-[var(--surface)] py-1.5 pl-3 text-[var(--ink)]"
         value={theme}
         onChange={(e) => setTheme(e.target.value as Theme)}
         aria-label={t.common.theme}

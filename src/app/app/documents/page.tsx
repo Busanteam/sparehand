@@ -11,6 +11,7 @@ import {
 } from "@/components/ui";
 import type { DocumentResult } from "@/lib/ai/schemas";
 import { formatAud } from "@/lib/money/gst";
+import { aiFetchInit } from "@/lib/storage/ai-config";
 import { pushHistory } from "@/lib/storage/local";
 
 export default function DocumentsPage() {
@@ -31,11 +32,13 @@ export default function DocumentsPage() {
     setLoading(true);
     setError("");
     try {
-      const res = await fetch("/api/ai/document", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ imageDataUrl: preview, locale }),
-      });
+      const res = await fetch(
+        "/api/ai/document",
+        aiFetchInit({
+          method: "POST",
+          body: JSON.stringify({ imageDataUrl: preview, locale }),
+        }),
+      );
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "failed");
       setResult(data.result);

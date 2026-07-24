@@ -15,7 +15,7 @@ export default function HomePage() {
         <div className="flex items-center gap-2">
           <ThemeToggle compact />
           <select
-            className="rounded-md border border-[var(--line)] bg-[var(--surface)]/80 px-2 py-1 text-sm text-[var(--ink)]"
+            className="sh-select rounded-md border border-[var(--line)] bg-[var(--surface)]/80 py-1.5 pl-3 text-sm text-[var(--ink)]"
             value={locale}
             onChange={(e) => setLocale(e.target.value as Locale)}
             aria-label={t.common.language}

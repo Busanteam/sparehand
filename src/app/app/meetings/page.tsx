@@ -11,6 +11,7 @@ import {
   TextArea,
 } from "@/components/ui";
 import type { MeetingResult } from "@/lib/ai/schemas";
+import { aiFetchInit } from "@/lib/storage/ai-config";
 import { pushHistory } from "@/lib/storage/local";
 
 export default function MeetingsPage() {
@@ -24,11 +25,13 @@ export default function MeetingsPage() {
     setLoading(true);
     setError("");
     try {
-      const res = await fetch("/api/ai/meeting", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ text, locale }),
-      });
+      const res = await fetch(
+        "/api/ai/meeting",
+        aiFetchInit({
+          method: "POST",
+          body: JSON.stringify({ text, locale }),
+        }),
+      );
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "failed");
       setResult(data.result);

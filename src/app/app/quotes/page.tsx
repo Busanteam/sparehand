@@ -17,6 +17,7 @@ import {
   roundMoney,
 } from "@/lib/money/gst";
 import { buildQuotePdf } from "@/lib/quotes/pdf";
+import { aiFetchInit } from "@/lib/storage/ai-config";
 import { loadRates, pushHistory } from "@/lib/storage/local";
 
 export default function QuotesPage() {
@@ -46,11 +47,13 @@ export default function QuotesPage() {
     setLoading(true);
     setError("");
     try {
-      const res = await fetch("/api/ai/quote", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ job, clientName, rates, locale }),
-      });
+      const res = await fetch(
+        "/api/ai/quote",
+        aiFetchInit({
+          method: "POST",
+          body: JSON.stringify({ job, clientName, rates, locale }),
+        }),
+      );
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "failed");
       setResult(data.result);
