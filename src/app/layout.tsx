@@ -15,10 +15,48 @@ const body = Manrope({
   weight: ["400", "500", "600", "700"],
 });
 
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://sparehand.vercel.app";
+
 export const metadata: Metadata = {
-  title: "SpareHand — AU SME office automation",
+  metadataBase: new URL(siteUrl),
+  title: {
+    default: "SpareHand — Office help for Australian SMEs",
+    template: "%s · SpareHand",
+  },
   description:
-    "Inbox triage, meeting notes, document OCR and GST quote drafts for Australian SMEs stretching limited headcount.",
+    "Inbox triage, meeting notes, receipt capture and GST quote drafts for Australian SMEs stretching limited headcount.",
+  applicationName: "SpareHand",
+  icons: {
+    icon: [
+      { url: "/favicon.svg", type: "image/svg+xml" },
+      { url: "/icon.png", type: "image/png" },
+    ],
+    apple: [{ url: "/icon.png" }],
+  },
+  openGraph: {
+    type: "website",
+    locale: "en_AU",
+    url: siteUrl,
+    siteName: "SpareHand",
+    title: "SpareHand — Office help for SMEs short on staff",
+    description:
+      "AI drafts for enquiries, meetings, receipts and GST quotes. Built for Australian small businesses.",
+    images: [
+      {
+        url: "/og.png",
+        width: 1376,
+        height: 768,
+        alt: "SpareHand — Office help for SMEs short on staff",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "SpareHand — Office help for Australian SMEs",
+    description:
+      "AI drafts for enquiries, meetings, receipts and GST quotes. Review before you send.",
+    images: ["/og.png"],
+  },
 };
 
 export default function RootLayout({

@@ -71,7 +71,7 @@ export default function RatesPage() {
   }
 
   return (
-    <Panel title={t.rates.title} hint={t.rates.hint}>
+    <Panel title={t.rates.title} hint={t.rates.hint} help={t.help.rates}>
       <div className="mb-4 flex flex-wrap gap-2">
         <PrimaryButton type="button" onClick={addLine}>
           {t.rates.add}

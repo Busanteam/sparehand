@@ -1,6 +1,7 @@
 "use client";
 
 import { useI18n } from "@/components/i18n-provider";
+import { HelpTip, type HelpContent } from "@/components/help-tip";
 
 export function DraftBadge() {
   const { t } = useI18n();
@@ -14,19 +15,24 @@ export function DraftBadge() {
 export function Panel({
   title,
   hint,
+  help,
   children,
 }: {
   title: string;
   hint?: string;
+  help?: HelpContent;
   children: React.ReactNode;
 }) {
   return (
     <section className="mx-auto max-w-5xl">
       <header className="mb-6 flex flex-wrap items-start justify-between gap-3">
-        <div>
-          <h1 className="font-[family-name:var(--font-display)] text-3xl tracking-tight text-[var(--ink)]">
-            {title}
-          </h1>
+        <div className="min-w-0 flex-1">
+          <div className="flex flex-wrap items-center gap-2">
+            <h1 className="font-[family-name:var(--font-display)] text-3xl tracking-tight text-[var(--ink)]">
+              {title}
+            </h1>
+            {help ? <HelpTip content={help} /> : null}
+          </div>
           {hint ? <p className="mt-2 max-w-2xl text-[var(--muted)]">{hint}</p> : null}
         </div>
         <DraftBadge />
@@ -64,5 +70,23 @@ export function ResultCard({ children }: { children: React.ReactNode }) {
     <div className="rounded-2xl border border-[var(--line)] bg-white p-5 shadow-[0_10px_40px_-28px_rgba(20,40,30,0.45)]">
       {children}
     </div>
+  );
+}
+
+export function EmptyState() {
+  const { t } = useI18n();
+  return (
+    <div className="rounded-xl border border-dashed border-[var(--line)] bg-[var(--panel)] px-4 py-8 text-center">
+      <p className="text-sm font-medium text-[var(--ink)]">{t.common.empty}</p>
+      <p className="mt-1 text-sm text-[var(--muted)]">{t.common.emptyHint}</p>
+    </div>
+  );
+}
+
+export function StepLabel({ children }: { children: React.ReactNode }) {
+  return (
+    <p className="mb-2 text-xs font-semibold tracking-[0.12em] text-[var(--accent)] uppercase">
+      {children}
+    </p>
   );
 }

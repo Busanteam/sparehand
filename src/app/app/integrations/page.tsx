@@ -7,35 +7,36 @@ export default function IntegrationsPage() {
   const { t } = useI18n();
 
   return (
-    <Panel title={t.integrations.title} hint={t.integrations.hint}>
+    <Panel
+      title={t.integrations.title}
+      hint={t.integrations.hint}
+      help={t.help.integrations}
+    >
       <div className="grid gap-4 lg:grid-cols-2">
         <ResultCard>
           <h2 className="font-[family-name:var(--font-display)] text-xl">
             {t.integrations.zapierTitle}
           </h2>
-          <p className="mt-2 text-sm text-[var(--muted)]">{t.integrations.zapierBody}</p>
-          <pre className="mt-4 overflow-x-auto rounded-xl bg-[var(--ink)] p-4 text-xs text-emerald-100">
-{`POST /api/webhooks/inbound
-Header: x-sparehand-secret: <SPAREHAND_WEBHOOK_SECRET>
-{
-  "subject": "Urgent leak in kitchen",
-  "from": "client@example.com",
-  "body": "Water under the sink since this morning...",
-  "source": "zapier-gmail"
-}`}
-          </pre>
+          <p className="mt-2 text-sm leading-relaxed text-[var(--muted)]">
+            {t.integrations.zapierBody}
+          </p>
+          <div className="mt-4 rounded-xl bg-[var(--panel)] p-4 text-sm text-[var(--ink)]/90">
+            <p className="font-medium">For your IT person</p>
+            <p className="mt-2 text-[var(--muted)]">
+              Webhook URL: <code className="text-[var(--accent)]">/api/webhooks/inbound</code>
+            </p>
+            <p className="mt-1 text-[var(--muted)]">
+              Header: <code>x-sparehand-secret</code>
+            </p>
+          </div>
         </ResultCard>
         <ResultCard>
           <h2 className="font-[family-name:var(--font-display)] text-xl">
             {t.integrations.deferredTitle}
           </h2>
-          <p className="mt-2 text-sm text-[var(--muted)]">{t.integrations.deferredBody}</p>
-          <ul className="mt-4 list-disc space-y-2 pl-5 text-sm text-[var(--muted)]">
-            <li>Desktop RPA script packs</li>
-            <li>Live Excel ↔ database sync</li>
-            <li>Monday.com marketplace widgets</li>
-            <li>Deep ClickUp bi-directional sync</li>
-          </ul>
+          <p className="mt-2 text-sm leading-relaxed text-[var(--muted)]">
+            {t.integrations.deferredBody}
+          </p>
         </ResultCard>
       </div>
     </Panel>

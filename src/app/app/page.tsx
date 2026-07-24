@@ -15,7 +15,10 @@ export default function DashboardPage() {
   const { t } = useI18n();
 
   return (
-    <Panel title={t.dashboard.title} hint={t.dashboard.subtitle}>
+    <Panel title={t.dashboard.title} hint={t.dashboard.subtitle} help={t.help.dashboard}>
+      <div className="mb-6 rounded-2xl border border-[var(--accent)]/20 bg-[var(--accent-soft)] px-4 py-3 text-sm text-[var(--ink)]/90">
+        {t.heroNote}
+      </div>
       <div className="grid gap-4 sm:grid-cols-2">
         {cards.map((card) => (
           <Link

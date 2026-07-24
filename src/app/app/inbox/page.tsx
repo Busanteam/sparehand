@@ -2,7 +2,14 @@
 
 import { useState } from "react";
 import { useI18n } from "@/components/i18n-provider";
-import { Panel, PrimaryButton, ResultCard, TextArea } from "@/components/ui";
+import {
+  EmptyState,
+  Panel,
+  PrimaryButton,
+  ResultCard,
+  StepLabel,
+  TextArea,
+} from "@/components/ui";
 import type { InboxResult } from "@/lib/ai/schemas";
 import { pushHistory } from "@/lib/storage/local";
 
@@ -40,9 +47,10 @@ export default function InboxPage() {
   }
 
   return (
-    <Panel title={t.inbox.title} hint={t.inbox.hint}>
+    <Panel title={t.inbox.title} hint={t.inbox.hint} help={t.help.inbox}>
       <div className="grid gap-5 lg:grid-cols-2">
         <div className="space-y-3">
+          <StepLabel>{t.common.stepInput}</StepLabel>
           <TextArea
             value={text}
             onChange={(e) => setText(e.target.value)}
@@ -53,37 +61,40 @@ export default function InboxPage() {
           </PrimaryButton>
           {error ? <p className="text-sm text-[var(--warn)]">{error}</p> : null}
         </div>
-        <ResultCard>
-          {!result ? (
-            <p className="text-sm text-[var(--muted)]">{t.common.empty}</p>
-          ) : (
-            <div className="space-y-4 text-sm">
-              {mode ? (
-                <p className="text-xs uppercase tracking-wide text-[var(--muted)]">Mode: {mode}</p>
-              ) : null}
-              <div>
-                <p className="font-semibold">{t.inbox.urgency}</p>
-                <p className="capitalize">{result.urgency}</p>
+        <div>
+          <StepLabel>{t.common.stepResult}</StepLabel>
+          <ResultCard>
+            {!result ? (
+              <EmptyState />
+            ) : (
+              <div className="space-y-4 text-sm">
+                {mode ? (
+                  <p className="text-xs uppercase tracking-wide text-[var(--muted)]">Mode: {mode}</p>
+                ) : null}
+                <div>
+                  <p className="font-semibold">{t.inbox.urgency}</p>
+                  <p className="capitalize">{result.urgency}</p>
+                </div>
+                <div>
+                  <p className="font-semibold">{t.inbox.category}</p>
+                  <p>{result.category}</p>
+                </div>
+                <div>
+                  <p className="font-semibold">{t.inbox.draftReply}</p>
+                  <p className="mt-1 whitespace-pre-wrap text-[var(--muted)]">{result.draftReply}</p>
+                </div>
+                <div>
+                  <p className="font-semibold">{t.inbox.actions}</p>
+                  <ul className="mt-1 list-disc space-y-1 pl-5 text-[var(--muted)]">
+                    {result.actions.map((a) => (
+                      <li key={a}>{a}</li>
+                    ))}
+                  </ul>
+                </div>
               </div>
-              <div>
-                <p className="font-semibold">{t.inbox.category}</p>
-                <p>{result.category}</p>
-              </div>
-              <div>
-                <p className="font-semibold">{t.inbox.draftReply}</p>
-                <p className="mt-1 whitespace-pre-wrap text-[var(--muted)]">{result.draftReply}</p>
-              </div>
-              <div>
-                <p className="font-semibold">{t.inbox.actions}</p>
-                <ul className="mt-1 list-disc space-y-1 pl-5 text-[var(--muted)]">
-                  {result.actions.map((a) => (
-                    <li key={a}>{a}</li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-          )}
-        </ResultCard>
+            )}
+          </ResultCard>
+        </div>
       </div>
     </Panel>
   );

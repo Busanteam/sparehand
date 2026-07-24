@@ -39,32 +39,31 @@ export default function HomePage() {
             >
               {t.ctaStart}
             </Link>
-            <a
-              href="/SCOPE.md"
+            <Link
+              href="/whats-included"
               className="rounded-lg border border-[var(--line)] bg-white/70 px-5 py-3 text-sm font-semibold text-[var(--ink)]"
             >
               {t.ctaScope}
-            </a>
+            </Link>
           </div>
         </div>
 
         <div className="rounded-[28px] border border-[var(--line)] bg-white/80 p-6 shadow-[0_30px_80px_-40px_rgba(20,40,30,0.55)] backdrop-blur">
           <ol className="space-y-4 text-sm text-[var(--muted)]">
-            <li>
-              <strong className="text-[var(--ink)]">1. Inbox</strong> — classify and draft replies
-            </li>
-            <li>
-              <strong className="text-[var(--ink)]">2. Meetings</strong> — summarise and assign actions
-            </li>
-            <li>
-              <strong className="text-[var(--ink)]">3. Docs / OCR</strong> — capture receipts with GST fields
-            </li>
-            <li>
-              <strong className="text-[var(--ink)]">4. Quotes</strong> — rate-card drafts, not live price scrapes
-            </li>
+            {t.heroSteps.map((step, index) => (
+              <li key={step} className="flex gap-3">
+                <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[var(--accent-soft)] text-xs font-bold text-[var(--accent)]">
+                  {index + 1}
+                </span>
+                <span>
+                  <strong className="text-[var(--ink)]">{step.split(" — ")[0]}</strong>
+                  {step.includes(" — ") ? ` — ${step.split(" — ").slice(1).join(" — ")}` : null}
+                </span>
+              </li>
+            ))}
           </ol>
-          <p className="mt-6 border-t border-[var(--line)] pt-4 text-xs text-[var(--muted)]">
-            Desktop RPA, Monday widgets and live Excel sync are intentionally deferred — see SCOPE.md.
+          <p className="mt-6 border-t border-[var(--line)] pt-4 text-sm text-[var(--muted)]">
+            {t.heroNote}
           </p>
         </div>
       </main>

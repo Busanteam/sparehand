@@ -2,7 +2,14 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { useI18n } from "@/components/i18n-provider";
-import { Panel, PrimaryButton, ResultCard, TextArea } from "@/components/ui";
+import {
+  EmptyState,
+  Panel,
+  PrimaryButton,
+  ResultCard,
+  StepLabel,
+  TextArea,
+} from "@/components/ui";
 import type { QuoteResult } from "@/lib/ai/schemas";
 import {
   formatAud,
@@ -70,9 +77,10 @@ export default function QuotesPage() {
   }
 
   return (
-    <Panel title={t.quotes.title} hint={t.quotes.hint}>
+    <Panel title={t.quotes.title} hint={t.quotes.hint} help={t.help.quotes}>
       <div className="grid gap-5 lg:grid-cols-2">
         <div className="space-y-3">
+          <StepLabel>{t.common.stepInput}</StepLabel>
           <input
             className="w-full rounded-xl border border-[var(--line)] bg-white px-4 py-3 outline-none focus:ring-2 focus:ring-[var(--accent)]/30"
             placeholder={t.quotes.client}
@@ -99,9 +107,11 @@ export default function QuotesPage() {
           </div>
           {error ? <p className="text-sm text-[var(--warn)]">{error}</p> : null}
         </div>
-        <ResultCard>
+        <div>
+          <StepLabel>{t.common.stepResult}</StepLabel>
+          <ResultCard>
           {!result || !totals ? (
-            <p className="text-sm text-[var(--muted)]">{t.common.empty}</p>
+            <EmptyState />
           ) : (
             <div className="space-y-3 text-sm">
               <p className="font-[family-name:var(--font-display)] text-lg">{result.jobTitle}</p>
@@ -125,7 +135,8 @@ export default function QuotesPage() {
               <p className="text-[var(--muted)]">{result.notesForClient}</p>
             </div>
           )}
-        </ResultCard>
+          </ResultCard>
+        </div>
       </div>
     </Panel>
   );
