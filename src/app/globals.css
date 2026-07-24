@@ -1,0 +1,34 @@
+@import "tailwindcss";
+
+:root {
+  --bg: #eef3ef;
+  --panel: #f7faf7;
+  --ink: #14201a;
+  --muted: #5b6b62;
+  --line: #d5e0d8;
+  --accent: #0f6a4f;
+  --accent-soft: #d8efe6;
+  --warn: #9a3412;
+  --background: var(--bg);
+  --foreground: var(--ink);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-body);
+  --font-display: var(--font-display);
+}
+
+body {
+  background:
+    radial-gradient(1200px 500px at 10% -10%, #d9ebe2 0%, transparent 55%),
+    radial-gradient(900px 420px at 100% 0%, #e7efe3 0%, transparent 50%),
+    var(--bg);
+  color: var(--ink);
+  font-family: var(--font-body), system-ui, sans-serif;
+}
+
+::selection {
+  background: color-mix(in oklab, var(--accent) 25%, white);
+}
