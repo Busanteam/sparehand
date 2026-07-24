@@ -12,6 +12,7 @@ import {
   Tags,
 } from "lucide-react";
 import { useI18n } from "@/components/i18n-provider";
+import { ThemeToggle } from "@/components/theme-toggle";
 import type { Locale } from "@/lib/i18n/types";
 
 const links = [
@@ -35,17 +36,20 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           <Link href="/" className="font-[family-name:var(--font-display)] text-xl tracking-tight">
             {t.brand}
           </Link>
-          <label className="flex items-center gap-2 text-sm text-[var(--muted)]">
-            <span className="sr-only">{t.common.language}</span>
-            <select
-              className="rounded-md border border-[var(--line)] bg-transparent px-2 py-1"
-              value={locale}
-              onChange={(e) => setLocale(e.target.value as Locale)}
-            >
-              <option value="en-AU">EN (AU)</option>
-              <option value="ko">한국어</option>
-            </select>
-          </label>
+          <div className="flex items-center gap-2 lg:mt-4">
+            <ThemeToggle compact />
+            <label className="flex items-center gap-2 text-sm text-[var(--muted)]">
+              <span className="sr-only">{t.common.language}</span>
+              <select
+                className="rounded-md border border-[var(--line)] bg-[var(--surface)] px-2 py-1 text-[var(--ink)]"
+                value={locale}
+                onChange={(e) => setLocale(e.target.value as Locale)}
+              >
+                <option value="en-AU">EN (AU)</option>
+                <option value="ko">한국어</option>
+              </select>
+            </label>
+          </div>
         </div>
         <nav className="flex gap-1 overflow-x-auto px-3 pb-3 lg:flex-col lg:overflow-visible lg:pb-6">
           {links.map(({ href, key, icon: Icon }) => {
@@ -57,7 +61,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
                 className={`flex items-center gap-2 rounded-lg px-3 py-2 text-sm whitespace-nowrap transition ${
                   active
                     ? "bg-[var(--accent-soft)] text-[var(--accent)]"
-                    : "text-[var(--muted)] hover:bg-black/5 hover:text-[var(--ink)]"
+                    : "text-[var(--muted)] hover:bg-[var(--hover-fill)] hover:text-[var(--ink)]"
                 }`}
               >
                 <Icon size={16} />

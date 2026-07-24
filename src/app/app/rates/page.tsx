@@ -79,21 +79,21 @@ export default function RatesPage() {
         <button
           type="button"
           onClick={exportCsv}
-          className="rounded-lg border border-[var(--line)] bg-white px-4 py-2.5 text-sm"
+          className="rounded-lg border border-[var(--line)] bg-[var(--surface)] px-4 py-2.5 text-sm"
         >
           {t.rates.exportCsv}
         </button>
         <button
           type="button"
           onClick={() => fileRef.current?.click()}
-          className="rounded-lg border border-[var(--line)] bg-white px-4 py-2.5 text-sm"
+          className="rounded-lg border border-[var(--line)] bg-[var(--surface)] px-4 py-2.5 text-sm"
         >
           {t.rates.importCsv}
         </button>
         <button
           type="button"
           onClick={persist}
-          className="rounded-lg border border-[var(--line)] bg-white px-4 py-2.5 text-sm"
+          className="rounded-lg border border-[var(--line)] bg-[var(--surface)] px-4 py-2.5 text-sm"
         >
           {saved ? t.common.saved : t.common.save}
         </button>
@@ -106,7 +106,7 @@ export default function RatesPage() {
         />
       </div>
 
-      <div className="overflow-x-auto rounded-2xl border border-[var(--line)] bg-white">
+      <div className="overflow-x-auto rounded-2xl border border-[var(--line)] bg-[var(--surface)]">
         <table className="min-w-full text-left text-sm">
           <thead className="border-b border-[var(--line)] bg-[var(--panel)] text-[var(--muted)]">
             <tr>

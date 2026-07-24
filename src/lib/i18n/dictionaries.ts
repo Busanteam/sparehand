@@ -119,6 +119,10 @@ export type Dictionary = {
   };
   common: {
     language: string;
+    theme: string;
+    themeLight: string;
+    themeDark: string;
+    themeSystem: string;
     loading: string;
     copy: string;
     copied: string;
@@ -374,6 +378,10 @@ const enAU: Dictionary = {
   },
   common: {
     language: "Language",
+    theme: "Theme",
+    themeLight: "Light",
+    themeDark: "Dark",
+    themeSystem: "System",
     loading: "Working…",
     copy: "Copy",
     copied: "Copied",
@@ -627,6 +635,10 @@ const ko: Dictionary = {
   },
   common: {
     language: "언어",
+    theme: "테마",
+    themeLight: "라이트",
+    themeDark: "다크",
+    themeSystem: "시스템",
     loading: "처리 중…",
     copy: "복사",
     copied: "복사됨",

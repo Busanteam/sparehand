@@ -24,7 +24,7 @@ export default function DashboardPage() {
           <Link
             key={card.href}
             href={card.href}
-            className="rounded-2xl border border-[var(--line)] bg-white p-5 transition hover:-translate-y-0.5 hover:border-[var(--accent)]/40"
+            className="rounded-2xl border border-[var(--line)] bg-[var(--surface)] p-5 transition hover:-translate-y-0.5 hover:border-[var(--accent)]/40"
           >
             <h2 className="font-[family-name:var(--font-display)] text-xl">
               {t.nav[card.key]}

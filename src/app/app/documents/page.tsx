@@ -56,7 +56,7 @@ export default function DocumentsPage() {
       <div className="grid gap-5 lg:grid-cols-2">
         <div className="space-y-3">
           <StepLabel>{t.common.stepInput}</StepLabel>
-          <label className="flex min-h-48 cursor-pointer flex-col items-center justify-center rounded-2xl border border-dashed border-[var(--line)] bg-white px-4 text-center text-sm text-[var(--muted)] transition hover:border-[var(--accent)]/40">
+          <label className="flex min-h-48 cursor-pointer flex-col items-center justify-center rounded-2xl border border-dashed border-[var(--line)] bg-[var(--surface)] px-4 text-center text-sm text-[var(--muted)] transition hover:border-[var(--accent)]/40">
             <span>{t.documents.drop}</span>
             <input
               type="file"

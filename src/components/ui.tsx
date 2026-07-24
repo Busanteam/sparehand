@@ -49,7 +49,7 @@ export function PrimaryButton({
   return (
     <button
       {...props}
-      className={`rounded-lg bg-[var(--accent)] px-4 py-2.5 text-sm font-medium text-white transition hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-60 ${props.className ?? ""}`}
+      className={`rounded-lg bg-[var(--accent)] px-4 py-2.5 text-sm font-medium text-[var(--accent-contrast)] transition hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-60 ${props.className ?? ""}`}
     >
       {children}
     </button>
@@ -60,14 +60,17 @@ export function TextArea(props: React.TextareaHTMLAttributes<HTMLTextAreaElement
   return (
     <textarea
       {...props}
-      className={`min-h-40 w-full rounded-xl border border-[var(--line)] bg-white px-4 py-3 text-[var(--ink)] outline-none ring-[var(--accent)]/30 placeholder:text-[var(--muted)] focus:ring-2 ${props.className ?? ""}`}
+      className={`min-h-40 w-full rounded-xl border border-[var(--line)] bg-[var(--surface)] px-4 py-3 text-[var(--ink)] outline-none ring-[var(--accent)]/30 placeholder:text-[var(--muted)] focus:ring-2 ${props.className ?? ""}`}
     />
   );
 }
 
 export function ResultCard({ children }: { children: React.ReactNode }) {
   return (
-    <div className="rounded-2xl border border-[var(--line)] bg-white p-5 shadow-[0_10px_40px_-28px_rgba(20,40,30,0.45)]">
+    <div
+      className="rounded-2xl border border-[var(--line)] bg-[var(--surface)] p-5"
+      style={{ boxShadow: "var(--shadow)" }}
+    >
       {children}
     </div>
   );

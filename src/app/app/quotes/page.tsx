@@ -82,7 +82,7 @@ export default function QuotesPage() {
         <div className="space-y-3">
           <StepLabel>{t.common.stepInput}</StepLabel>
           <input
-            className="w-full rounded-xl border border-[var(--line)] bg-white px-4 py-3 outline-none focus:ring-2 focus:ring-[var(--accent)]/30"
+            className="w-full rounded-xl border border-[var(--line)] bg-[var(--surface)] px-4 py-3 outline-none focus:ring-2 focus:ring-[var(--accent)]/30"
             placeholder={t.quotes.client}
             value={clientName}
             onChange={(e) => setClientName(e.target.value)}
@@ -100,7 +100,7 @@ export default function QuotesPage() {
               type="button"
               disabled={!result}
               onClick={downloadPdf}
-              className="rounded-lg border border-[var(--line)] bg-white px-4 py-2.5 text-sm disabled:opacity-50"
+              className="rounded-lg border border-[var(--line)] bg-[var(--surface)] px-4 py-2.5 text-sm disabled:opacity-50"
             >
               {t.quotes.exportPdf}
             </button>

@@ -31,7 +31,7 @@ export function HelpTip({ content }: { content: HelpContent }) {
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-[var(--line)] bg-white text-[var(--accent)] shadow-sm transition hover:border-[var(--accent)]/40 hover:bg-[var(--accent-soft)]"
+        className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-[var(--line)] bg-[var(--surface)] text-[var(--accent)] shadow-sm transition hover:border-[var(--accent)]/40 hover:bg-[var(--accent-soft)]"
         aria-label={t.help.openLabel}
         title={t.help.openLabel}
       >
@@ -42,7 +42,8 @@ export function HelpTip({ content }: { content: HelpContent }) {
         <div className="fixed inset-0 z-50 flex items-end justify-center p-4 sm:items-center">
           <button
             type="button"
-            className="absolute inset-0 bg-[rgba(20,32,26,0.45)] backdrop-blur-[2px]"
+            className="absolute inset-0 backdrop-blur-[2px]"
+            style={{ background: "var(--overlay)" }}
             aria-label={t.help.close}
             onClick={() => setOpen(false)}
           />
@@ -50,14 +51,18 @@ export function HelpTip({ content }: { content: HelpContent }) {
             role="dialog"
             aria-modal="true"
             aria-labelledby={titleId}
-            className="relative z-10 w-full max-w-lg rounded-2xl border border-[var(--line)] bg-white p-5 shadow-[0_30px_80px_-30px_rgba(20,40,30,0.55)] sm:p-6"
+            className="relative z-10 w-full max-w-lg rounded-2xl border border-[var(--line)] bg-[var(--surface)] p-5 sm:p-6"
+            style={{ boxShadow: "var(--shadow)" }}
           >
             <div className="mb-4 flex items-start justify-between gap-3">
               <div>
                 <p className="text-xs font-semibold tracking-[0.14em] text-[var(--accent)] uppercase">
                   {t.help.howToUse}
                 </p>
-                <h2 id={titleId} className="mt-1 font-[family-name:var(--font-display)] text-2xl text-[var(--ink)]">
+                <h2
+                  id={titleId}
+                  className="mt-1 font-[family-name:var(--font-display)] text-2xl text-[var(--ink)]"
+                >
                   {content.title}
                 </h2>
               </div>
@@ -65,7 +70,7 @@ export function HelpTip({ content }: { content: HelpContent }) {
                 ref={closeRef}
                 type="button"
                 onClick={() => setOpen(false)}
-                className="rounded-full border border-[var(--line)] p-2 text-[var(--muted)] hover:bg-[var(--panel)]"
+                className="rounded-full border border-[var(--line)] p-2 text-[var(--muted)] hover:bg-[var(--hover-fill)]"
                 aria-label={t.help.close}
               >
                 <X size={16} />
@@ -99,7 +104,7 @@ export function HelpTip({ content }: { content: HelpContent }) {
             <button
               type="button"
               onClick={() => setOpen(false)}
-              className="mt-5 w-full rounded-lg bg-[var(--accent)] px-4 py-2.5 text-sm font-medium text-white"
+              className="mt-5 w-full rounded-lg bg-[var(--accent)] px-4 py-2.5 text-sm font-medium text-[var(--accent-contrast)]"
             >
               {t.help.gotIt}
             </button>

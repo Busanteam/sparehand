@@ -3,14 +3,43 @@
 :root {
   --bg: #eef3ef;
   --panel: #f7faf7;
+  --surface: #ffffff;
   --ink: #14201a;
   --muted: #5b6b62;
   --line: #d5e0d8;
   --accent: #0f6a4f;
   --accent-soft: #d8efe6;
+  --accent-contrast: #ffffff;
   --warn: #9a3412;
+  --overlay: rgba(20, 32, 26, 0.45);
+  --shadow: 0 10px 40px -28px rgba(20, 40, 30, 0.45);
+  --glow-a: #d9ebe2;
+  --glow-b: #e7efe3;
+  --hover-fill: rgba(20, 32, 26, 0.05);
   --background: var(--bg);
   --foreground: var(--ink);
+  color-scheme: light;
+}
+
+html.dark {
+  --bg: #0d1411;
+  --panel: #141c18;
+  --surface: #1a2420;
+  --ink: #e8f0eb;
+  --muted: #9aada2;
+  --line: #2a3831;
+  --accent: #3dba8f;
+  --accent-soft: #16352b;
+  --accent-contrast: #062218;
+  --warn: #fb923c;
+  --overlay: rgba(0, 0, 0, 0.62);
+  --shadow: 0 16px 48px -24px rgba(0, 0, 0, 0.7);
+  --glow-a: #143028;
+  --glow-b: #10231c;
+  --hover-fill: rgba(232, 240, 235, 0.06);
+  --background: var(--bg);
+  --foreground: var(--ink);
+  color-scheme: dark;
 }
 
 @theme inline {
@@ -22,13 +51,14 @@
 
 body {
   background:
-    radial-gradient(1200px 500px at 10% -10%, #d9ebe2 0%, transparent 55%),
-    radial-gradient(900px 420px at 100% 0%, #e7efe3 0%, transparent 50%),
+    radial-gradient(1200px 500px at 10% -10%, var(--glow-a) 0%, transparent 55%),
+    radial-gradient(900px 420px at 100% 0%, var(--glow-b) 0%, transparent 50%),
     var(--bg);
   color: var(--ink);
   font-family: var(--font-body), system-ui, sans-serif;
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 ::selection {
-  background: color-mix(in oklab, var(--accent) 25%, white);
+  background: color-mix(in oklab, var(--accent) 30%, transparent);
 }

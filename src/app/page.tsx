@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useI18n } from "@/components/i18n-provider";
+import { ThemeToggle } from "@/components/theme-toggle";
 import type { Locale } from "@/lib/i18n/types";
 
 export default function HomePage() {
@@ -9,18 +10,20 @@ export default function HomePage() {
 
   return (
     <div className="relative overflow-hidden">
-      <div className="absolute inset-0 -z-10 bg-[linear-gradient(120deg,rgba(15,106,79,0.12),transparent_40%),linear-gradient(200deg,rgba(20,32,26,0.06),transparent_45%)]" />
       <header className="mx-auto flex max-w-6xl items-center justify-between px-6 py-6">
         <span className="font-[family-name:var(--font-display)] text-2xl">{t.brand}</span>
-        <select
-          className="rounded-md border border-[var(--line)] bg-white/70 px-2 py-1 text-sm"
-          value={locale}
-          onChange={(e) => setLocale(e.target.value as Locale)}
-          aria-label={t.common.language}
-        >
-          <option value="en-AU">EN (AU)</option>
-          <option value="ko">한국어</option>
-        </select>
+        <div className="flex items-center gap-2">
+          <ThemeToggle compact />
+          <select
+            className="rounded-md border border-[var(--line)] bg-[var(--surface)]/80 px-2 py-1 text-sm text-[var(--ink)]"
+            value={locale}
+            onChange={(e) => setLocale(e.target.value as Locale)}
+            aria-label={t.common.language}
+          >
+            <option value="en-AU">EN (AU)</option>
+            <option value="ko">한국어</option>
+          </select>
+        </div>
       </header>
 
       <main className="mx-auto grid max-w-6xl gap-10 px-6 pb-20 pt-10 lg:grid-cols-[1.1fr_0.9fr] lg:items-end">
@@ -35,20 +38,23 @@ export default function HomePage() {
           <div className="mt-8 flex flex-wrap gap-3">
             <Link
               href="/app"
-              className="rounded-lg bg-[var(--accent)] px-5 py-3 text-sm font-semibold text-white"
+              className="rounded-lg bg-[var(--accent)] px-5 py-3 text-sm font-semibold text-[var(--accent-contrast)]"
             >
               {t.ctaStart}
             </Link>
             <Link
               href="/whats-included"
-              className="rounded-lg border border-[var(--line)] bg-white/70 px-5 py-3 text-sm font-semibold text-[var(--ink)]"
+              className="rounded-lg border border-[var(--line)] bg-[var(--surface)]/80 px-5 py-3 text-sm font-semibold text-[var(--ink)]"
             >
               {t.ctaScope}
             </Link>
           </div>
         </div>
 
-        <div className="rounded-[28px] border border-[var(--line)] bg-white/80 p-6 shadow-[0_30px_80px_-40px_rgba(20,40,30,0.55)] backdrop-blur">
+        <div
+          className="rounded-[28px] border border-[var(--line)] bg-[var(--surface)]/85 p-6 backdrop-blur"
+          style={{ boxShadow: "var(--shadow)" }}
+        >
           <ol className="space-y-4 text-sm text-[var(--muted)]">
             {t.heroSteps.map((step, index) => (
               <li key={step} className="flex gap-3">
