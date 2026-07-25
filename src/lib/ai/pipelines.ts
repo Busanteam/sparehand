@@ -19,6 +19,7 @@ import {
   quoteResultSchema,
   type RateItem,
 } from "./schemas";
+import { applyAreaToQuote } from "@/lib/quotes/area";
 
 async function completeJson<T>(args: {
   system: string;
@@ -138,26 +139,42 @@ export async function runQuoteDraft(input: {
   clientName: string;
   rates: RateItem[];
   locale: string;
+  areaSqm?: number;
   ai?: OpenAiOptions;
 }) {
+  const areaSqm = input.areaSqm && input.areaSqm > 0 ? input.areaSqm : 0;
+
   if (!hasOpenAI(input.ai)) {
-    return { result: mockQuote(input.job, input.rates), mode: "mock" as const };
+    return {
+      result: applyAreaToQuote(mockQuote(input.job, input.rates, areaSqm), areaSqm),
+      mode: "mock" as const,
+    };
   }
   try {
     const result = await completeJson({
-      system: `Create a draft trade/service quote for an Australian SME.
+      system: `Create a draft trade/service/interior quote for an Australian SME.
 Use ONLY the provided rate card where possible. Do not invent supplier live prices.
 GST is added later by the app from ex-GST unit prices.
+If areaSqm > 0, any rate card items priced per m² / m2 / sqm MUST use quantity = areaSqm.
+Include fixed items (call-out, hourly labour) only when relevant.
 Return JSON: jobTitle, assumptions[], lineItems[{code?, description, quantity, unit, unitPriceExGst}], notesForClient.
+Always remind in notesForClient that this is a non-binding draft and final cost may change after site measure.
 Locale: ${input.locale}
 Client: ${input.clientName || "Client"}
+Area m²: ${areaSqm || "not provided"}
 Rate card JSON: ${JSON.stringify(input.rates)}`,
       user: input.job,
       schema: quoteResultSchema,
       ai: input.ai,
     });
-    return { result, mode: modeLabel(input.ai) };
+    return {
+      result: applyAreaToQuote(result, areaSqm),
+      mode: modeLabel(input.ai),
+    };
   } catch {
-    return { result: mockQuote(input.job, input.rates), mode: "mock" as const };
+    return {
+      result: applyAreaToQuote(mockQuote(input.job, input.rates, areaSqm), areaSqm),
+      mode: "mock" as const,
+    };
   }
 }

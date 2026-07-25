@@ -1,6 +1,6 @@
 import type { RateItem } from "@/lib/ai/schemas";
 
-const RATES_KEY = "sparehand_rates_v1";
+const RATES_KEY = "sparehand_rates_v2";
 const HISTORY_KEY = "sparehand_history_v1";
 
 export const defaultRates: RateItem[] = [
@@ -14,16 +14,30 @@ export const defaultRates: RateItem[] = [
   {
     id: "r2",
     code: "CALL",
-    label: "Call-out fee",
+    label: "Call-out / measure fee",
     unit: "job",
     unitPriceExGst: 85,
   },
   {
     id: "r3",
-    code: "MAT-GEN",
-    label: "General materials allowance",
-    unit: "lot",
-    unitPriceExGst: 120,
+    code: "INT-PAINT",
+    label: "Interior painting (walls)",
+    unit: "m²",
+    unitPriceExGst: 28,
+  },
+  {
+    id: "r4",
+    code: "INT-FLOOR",
+    label: "Flooring supply & install",
+    unit: "m²",
+    unitPriceExGst: 65,
+  },
+  {
+    id: "r5",
+    code: "INT-PREP",
+    label: "Surface prep / patching",
+    unit: "m²",
+    unitPriceExGst: 12,
   },
 ];
 

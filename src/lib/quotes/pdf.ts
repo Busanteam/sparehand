@@ -5,11 +5,14 @@ import {
   gstComponentFromEx,
   roundMoney,
 } from "@/lib/money/gst";
+import { disclaimerForLocale } from "@/lib/quotes/area";
 
 export function buildQuotePdf(input: {
   businessName: string;
   clientName: string;
   quote: QuoteResult;
+  areaSqm?: number;
+  locale?: string;
 }) {
   const doc = new jsPDF();
   const ex = input.quote.lineItems.reduce(
@@ -18,18 +21,31 @@ export function buildQuotePdf(input: {
   );
   const gst = gstComponentFromEx(ex);
   const inc = roundMoney(ex + gst);
+  const locale = input.locale ?? "en-AU";
 
-  let y = 20;
-  doc.setFontSize(18);
-  doc.text("SpareHand — Quote draft", 14, y);
-  y += 10;
+  let y = 18;
+  doc.setFontSize(16);
+  doc.text("SpareHand — Quote DRAFT", 14, y);
+  y += 8;
+  doc.setFontSize(9);
+  doc.setTextColor(150, 60, 20);
+  const banner = doc.splitTextToSize(disclaimerForLocale(locale), 180);
+  doc.text(banner, 14, y);
+  y += banner.length * 4.2 + 6;
+  doc.setTextColor(0);
+
   doc.setFontSize(11);
   doc.text(`From: ${input.businessName}`, 14, y);
   y += 6;
   doc.text(`To: ${input.clientName || "Client"}`, 14, y);
   y += 6;
   doc.text(`Job: ${input.quote.jobTitle}`, 14, y);
-  y += 10;
+  y += 6;
+  if (input.areaSqm && input.areaSqm > 0) {
+    doc.text(`Area: ${input.areaSqm} m²`, 14, y);
+    y += 6;
+  }
+  y += 4;
 
   doc.setFontSize(10);
   doc.text("Line items (ex GST)", 14, y);
@@ -40,7 +56,7 @@ export function buildQuotePdf(input: {
     const wrapped = doc.splitTextToSize(row, 180);
     doc.text(wrapped, 14, y);
     y += wrapped.length * 5 + 2;
-    if (y > 270) {
+    if (y > 260) {
       doc.addPage();
       y = 20;
     }
@@ -58,8 +74,13 @@ export function buildQuotePdf(input: {
   const notes = doc.splitTextToSize(input.quote.notesForClient, 180);
   doc.text(notes, 14, y);
   y += notes.length * 5 + 8;
-  doc.setTextColor(120);
-  doc.text("DRAFT ONLY — review before sending to a customer.", 14, y);
+  if (y > 250) {
+    doc.addPage();
+    y = 20;
+  }
+  doc.setTextColor(150, 60, 20);
+  const footer = doc.splitTextToSize(disclaimerForLocale(locale), 180);
+  doc.text(footer, 14, y);
 
   return doc;
 }

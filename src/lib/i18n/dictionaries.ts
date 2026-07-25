@@ -70,6 +70,16 @@ export type Dictionary = {
     run: string;
     client: string;
     exportPdf: string;
+    copyDraft: string;
+    areaTitle: string;
+    areaHint: string;
+    lengthM: string;
+    widthM: string;
+    areaSqm: string;
+    areaSqmPlaceholder: string;
+    calculatedArea: string;
+    disclaimerTitle: string;
+    disclaimerBody: string;
   };
   rates: {
     title: string;
@@ -222,11 +232,24 @@ const enAU: Dictionary = {
   },
   quotes: {
     title: "Quote drafts",
-    hint: "Describe the job. We draft line items from your rate card with 10% GST.",
-    placeholder: "e.g. Replace kitchen tap, supply and fit, north Brisbane…",
+    hint: "Describe the job and set the work area. m² rate-card lines scale with size, then GST is added.",
+    placeholder:
+      "e.g. Repaint living room walls and ceiling, north Brisbane…",
     run: "Draft quote",
     client: "Client name",
     exportPdf: "Download PDF draft",
+    copyDraft: "Copy draft text",
+    areaTitle: "Work area size",
+    areaHint:
+      "For interiors, enter length × width (metres) or total m². Items priced per m² use this area automatically.",
+    lengthM: "Length (m)",
+    widthM: "Width (m)",
+    areaSqm: "Or total area (m²)",
+    areaSqmPlaceholder: "Optional if length × width is filled",
+    calculatedArea: "Area used",
+    disclaimerTitle: "Draft only — final cost may change",
+    disclaimerBody:
+      "This estimate is a working draft for discussion. After site measure, material choices, access or variations, the real price can differ. Copy/PDF includes the same notice.",
   },
   rates: {
     title: "Rate card",
@@ -327,14 +350,14 @@ const enAU: Dictionary = {
     quotes: {
       title: "Quote drafts",
       steps: [
-        "Add or check your prices in Rate card first.",
-        "Enter the client name and describe the job in plain English.",
-        "Press Draft quote and review each line.",
-        "Download the PDF draft only after you are happy with the numbers.",
+        "Add or check your prices in Rate card (use unit m² for area work).",
+        "Enter client name, set length×width or total m², and describe the job.",
+        "Press Draft quote — m² lines use the calculated area.",
+        "Review numbers, then Copy draft or Download PDF (disclaimer included).",
       ],
       tips: [
-        "Prices come from your rate card — not live hardware store scraping.",
-        "GST is calculated at 10% on top of ex-GST amounts.",
+        "Interior jobs usually need area. Painting/flooring rates should use unit m².",
+        "Copied text always includes a draft disclaimer so clients are not misled.",
       ],
     },
     rates: {
@@ -520,11 +543,23 @@ const ko: Dictionary = {
   },
   quotes: {
     title: "견적 초안",
-    hint: "작업을 설명하면 단가표 기준으로 항목과 10% GST 초안을 만듭니다.",
-    placeholder: "예: 주방 수전 교체, 자재·시공 포함, 북부 브리즈번…",
+    hint: "작업 설명과 면적을 넣으면 m² 단가 항목이 크기에 맞게 계산되고 GST가 붙습니다.",
+    placeholder: "예: 거실 벽·천장 페인트, 북부 브리즈번…",
     run: "견적 초안",
     client: "고객명",
     exportPdf: "PDF 초안 다운로드",
+    copyDraft: "초안 텍스트 복사",
+    areaTitle: "작업 면적",
+    areaHint:
+      "인테리어는 가로×세로(미터) 또는 총 m²를 입력하세요. 단가가 m²인 항목은 이 면적으로 자동 계산됩니다.",
+    lengthM: "가로 (m)",
+    widthM: "세로 (m)",
+    areaSqm: "또는 총 면적 (m²)",
+    areaSqmPlaceholder: "가로×세로를 넣었다면 비워도 됩니다",
+    calculatedArea: "적용 면적",
+    disclaimerTitle: "초안입니다 — 실제 비용은 달라질 수 있음",
+    disclaimerBody:
+      "본 견적은 협의용 초안입니다. 현장 실측, 자재, 접근 조건, 변경에 따라 금액이 바뀔 수 있습니다. 복사/PDF에도 같은 고지가 포함됩니다.",
   },
   rates: {
     title: "단가표",
@@ -625,14 +660,14 @@ const ko: Dictionary = {
     quotes: {
       title: "견적 초안",
       steps: [
-        "먼저 단가표에서 가격을 확인/저장합니다.",
-        "고객명과 작업 내용을 평범한 말로 적습니다.",
-        "‘견적 초안’을 누르고 항목을 검토합니다.",
-        "숫자 확인 후에만 PDF 초안을 다운로드합니다.",
+        "단가표에서 가격을 확인하세요 (면적 작업은 단위를 m²로).",
+        "고객명, 가로×세로 또는 총 m², 작업 내용을 입력합니다.",
+        "‘견적 초안’을 누르면 m² 항목이 면적으로 계산됩니다.",
+        "숫자 확인 후 초안 복사 또는 PDF 다운로드 (고지 문구 포함).",
       ],
       tips: [
-        "가격은 내 단가표 기준입니다. 매장 실시간 시세를 긁어오지 않습니다.",
-        "GST는 세전 금액의 10%로 계산됩니다.",
+        "인테리어는 면적 입력이 중요합니다. 페인트·바닥 단가는 m²로 두세요.",
+        "복사본에도 초안 고지가 들어가 고객 오해를 줄입니다.",
       ],
     },
     rates: {

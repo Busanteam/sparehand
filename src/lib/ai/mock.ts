@@ -64,11 +64,30 @@ export function mockDocument(): DocumentResult {
   };
 }
 
-export function mockQuote(job: string, rates: RateItem[]): QuoteResult {
-  const labour = rates.find((r) => r.code.toLowerCase().includes("labour")) ?? rates[0];
-  const material = rates.find((r) => r.code.toLowerCase().includes("mat")) ?? rates[1];
+export function mockQuote(
+  job: string,
+  rates: RateItem[],
+  areaSqm = 0,
+): QuoteResult {
+  const areaRates = rates.filter((r) =>
+    /(m²|m2|sqm|sq\.?\s*m)/i.test(r.unit),
+  );
+  const labour =
+    rates.find((r) => r.code.toLowerCase().includes("lab")) ?? rates[0];
+  const callout = rates.find((r) => r.code.toLowerCase().includes("call"));
   const lineItems = [];
-  if (labour) {
+
+  if (areaSqm > 0 && areaRates.length > 0) {
+    for (const rate of areaRates.slice(0, 3)) {
+      lineItems.push({
+        code: rate.code,
+        description: rate.label,
+        quantity: areaSqm,
+        unit: rate.unit,
+        unitPriceExGst: rate.unitPriceExGst,
+      });
+    }
+  } else if (labour) {
     lineItems.push({
       code: labour.code,
       description: labour.label,
@@ -77,15 +96,17 @@ export function mockQuote(job: string, rates: RateItem[]): QuoteResult {
       unitPriceExGst: labour.unitPriceExGst,
     });
   }
-  if (material) {
+
+  if (callout) {
     lineItems.push({
-      code: material.code,
-      description: material.label,
+      code: callout.code,
+      description: callout.label,
       quantity: 1,
-      unit: material.unit,
-      unitPriceExGst: material.unitPriceExGst,
+      unit: callout.unit,
+      unitPriceExGst: callout.unitPriceExGst,
     });
   }
+
   if (lineItems.length === 0) {
     lineItems.push({
       description: "Labour — call-out and first hour",
@@ -94,14 +115,17 @@ export function mockQuote(job: string, rates: RateItem[]): QuoteResult {
       unitPriceExGst: 180,
     });
   }
+
   return {
     jobTitle: job.slice(0, 80) || "Service job",
     assumptions: [
       "Access during business hours",
-      "Existing fittings are compatible unless noted",
+      areaSqm > 0
+        ? `Area used for m² pricing: ${areaSqm} m²`
+        : "Existing fittings are compatible unless noted",
     ],
     lineItems,
     notesForClient:
-      "This is a draft estimate only. Final price may change after site inspection.",
+      "This is a draft estimate only. Final price may change after site inspection and measure.",
   };
 }
