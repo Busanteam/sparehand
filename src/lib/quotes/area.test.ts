@@ -26,7 +26,7 @@ test("applyAreaToQuote updates m2 lines only", () => {
           description: "Paint",
           quantity: 1,
           unit: "m²",
-          unitPriceExGst: 28,
+          unitPriceExGst: 25,
         },
         {
           description: "Call-out",

@@ -69,19 +69,32 @@ function ratesFor(tradeId: string, items: Omit<SeedRate, "tradeId">[]): RateItem
   }));
 }
 
-/** Granular starter rate cards across grouped trades (demo defaults). */
+/**
+ * Granular starter rate cards (demo defaults).
+ * Painting figures are mid-market AU 2026 guides (ex tax) — hipages / Brushworks /
+ * What’s The Damage style ranges: interior ~$15–$45/m², exterior ~$15–$60/m²,
+ * painter labour ~$40–$120/hr (metro typical ~$50–$70).
+ */
 export const defaultRates: RateItem[] = [
   ...ratesFor("t-paint", [
-    { code: "PT-CALL", label: "Paint quote / measure", unit: "job", unitPriceExGst: 85 },
-    { code: "PT-WALL", label: "Interior wall painting (2 coats)", unit: "m²", unitPriceExGst: 28 },
-    { code: "PT-CEIL", label: "Ceiling painting", unit: "m²", unitPriceExGst: 32 },
-    { code: "PT-PREP", label: "Surface prep / patching", unit: "m²", unitPriceExGst: 12 },
+    { code: "PT-CALL", label: "Paint quote / measure", unit: "job", unitPriceExGst: 90 },
+    { code: "PT-HR", label: "Painter labour", unit: "hour", unitPriceExGst: 65 },
+    { code: "PT-DAY", label: "Painter day rate", unit: "day", unitPriceExGst: 480 },
+    { code: "PT-WALL-BASIC", label: "Interior walls — basic (2 coats)", unit: "m²", unitPriceExGst: 20 },
+    { code: "PT-WALL", label: "Interior walls — standard (2 coats)", unit: "m²", unitPriceExGst: 25 },
+    { code: "PT-WALL-PREM", label: "Interior walls — premium finish", unit: "m²", unitPriceExGst: 35 },
+    { code: "PT-CEIL", label: "Ceiling painting (2 coats)", unit: "m²", unitPriceExGst: 11 },
+    { code: "PT-PREP", label: "Surface prep / fill & sand", unit: "m²", unitPriceExGst: 9 },
     { code: "PT-TRIM", label: "Skirting / trim paint", unit: "lm", unitPriceExGst: 8 },
-    { code: "PT-DOOR", label: "Door paint (both sides)", unit: "each", unitPriceExGst: 95 },
-    { code: "PT-EXT", label: "Exterior wall paint", unit: "m²", unitPriceExGst: 38 },
+    { code: "PT-DOOR", label: "Door paint (both sides)", unit: "each", unitPriceExGst: 90 },
+    { code: "PT-EXT", label: "Exterior walls — masonry / render", unit: "m²", unitPriceExGst: 35 },
+    { code: "PT-EXT-TIMB", label: "Exterior walls — timber / weatherboard", unit: "m²", unitPriceExGst: 48 },
+    { code: "PT-FENCE", label: "Fence paint / stain (both sides)", unit: "lm", unitPriceExGst: 30 },
+    { code: "PT-ROOM", label: "Single room package (walls + ceiling)", unit: "job", unitPriceExGst: 500 },
   ]),
   ...ratesFor("t-floor", [
     { code: "FL-CALL", label: "Flooring measure", unit: "job", unitPriceExGst: 80 },
+    { code: "FL-HR", label: "Flooring labour", unit: "hour", unitPriceExGst: 75 },
     { code: "FL-LAM", label: "Laminate supply & install", unit: "m²", unitPriceExGst: 55 },
     { code: "FL-VIN", label: "Vinyl plank supply & install", unit: "m²", unitPriceExGst: 65 },
     { code: "FL-ENG", label: "Engineered timber install", unit: "m²", unitPriceExGst: 95 },
@@ -91,6 +104,7 @@ export const defaultRates: RateItem[] = [
   ]),
   ...ratesFor("t-tile", [
     { code: "TI-CALL", label: "Tiling measure", unit: "job", unitPriceExGst: 85 },
+    { code: "TI-HR", label: "Tiler labour", unit: "hour", unitPriceExGst: 85 },
     { code: "TI-FLOOR", label: "Floor tiling (labour)", unit: "m²", unitPriceExGst: 75 },
     { code: "TI-WALL", label: "Wall tiling (labour)", unit: "m²", unitPriceExGst: 85 },
     { code: "TI-MOS", label: "Mosaic / feature tiling", unit: "m²", unitPriceExGst: 120 },
@@ -99,6 +113,7 @@ export const defaultRates: RateItem[] = [
   ]),
   ...ratesFor("t-plaster", [
     { code: "PLAS-CALL", label: "Plaster quote / measure", unit: "job", unitPriceExGst: 90 },
+    { code: "PLAS-HR", label: "Plasterer labour", unit: "hour", unitPriceExGst: 80 },
     { code: "PLAS-SHEET", label: "Gyprock sheet & set", unit: "m²", unitPriceExGst: 55 },
     { code: "PLAS-PATCH", label: "Patch & sand (minor)", unit: "each", unitPriceExGst: 85 },
     { code: "PLAS-CORN", label: "Cornice supply & fix", unit: "lm", unitPriceExGst: 28 },
@@ -106,6 +121,7 @@ export const defaultRates: RateItem[] = [
   ]),
   ...ratesFor("t-wallcov", [
     { code: "WP-CALL", label: "Wallpaper measure", unit: "job", unitPriceExGst: 75 },
+    { code: "WP-HR", label: "Wallpaper / feature-wall labour", unit: "hour", unitPriceExGst: 75 },
     { code: "WP-STD", label: "Wallpaper hang (labour)", unit: "m²", unitPriceExGst: 42 },
     { code: "WP-STRIP", label: "Old wallpaper strip", unit: "m²", unitPriceExGst: 18 },
     { code: "WP-FEAT", label: "Feature wall install", unit: "m²", unitPriceExGst: 65 },
@@ -120,6 +136,7 @@ export const defaultRates: RateItem[] = [
   ]),
   ...ratesFor("t-cabin", [
     { code: "CB-CALL", label: "Cabinetry measure", unit: "job", unitPriceExGst: 100 },
+    { code: "CB-HR", label: "Cabinetmaker labour", unit: "hour", unitPriceExGst: 95 },
     { code: "CB-BASE", label: "Base cupboard install", unit: "each", unitPriceExGst: 180 },
     { code: "CB-WALL", label: "Wall cupboard install", unit: "each", unitPriceExGst: 160 },
     { code: "CB-BENCH", label: "Benchtop fit (labour)", unit: "lm", unitPriceExGst: 120 },
@@ -134,6 +151,7 @@ export const defaultRates: RateItem[] = [
   ]),
   ...ratesFor("t-waterp", [
     { code: "WPX-CALL", label: "Waterproofing inspect", unit: "job", unitPriceExGst: 110 },
+    { code: "WPX-HR", label: "Waterproofing labour", unit: "hour", unitPriceExGst: 100 },
     { code: "WPX-BATH", label: "Bathroom wet area membrane", unit: "m²", unitPriceExGst: 75 },
     { code: "WPX-BALC", label: "Balcony membrane", unit: "m²", unitPriceExGst: 95 },
     { code: "WPX-FLASH", label: "Flashing detail", unit: "lm", unitPriceExGst: 45 },
@@ -189,6 +207,7 @@ export const defaultRates: RateItem[] = [
   ]),
   ...ratesFor("t-fence", [
     { code: "FN-CALL", label: "Fence quote / measure", unit: "job", unitPriceExGst: 85 },
+    { code: "FN-HR", label: "Fencing labour", unit: "hour", unitPriceExGst: 80 },
     { code: "FN-COLO", label: "Colorbond fence (labour)", unit: "lm", unitPriceExGst: 95 },
     { code: "FN-TIMB", label: "Timber paling fence", unit: "lm", unitPriceExGst: 110 },
     { code: "FN-GATE", label: "Gate supply & hang", unit: "each", unitPriceExGst: 320 },
@@ -196,6 +215,7 @@ export const defaultRates: RateItem[] = [
   ]),
   ...ratesFor("t-concrete", [
     { code: "CN-CALL", label: "Concrete quote", unit: "job", unitPriceExGst: 100 },
+    { code: "CN-HR", label: "Concreting labour", unit: "hour", unitPriceExGst: 90 },
     { code: "CN-SLAB", label: "Slab pour (labour + place)", unit: "m²", unitPriceExGst: 85 },
     { code: "CN-PATH", label: "Pathway pour", unit: "m²", unitPriceExGst: 95 },
     { code: "CN-PAVE", label: "Paver supply & lay", unit: "m²", unitPriceExGst: 75 },
@@ -211,6 +231,7 @@ export const defaultRates: RateItem[] = [
   ]),
   ...ratesFor("t-pest", [
     { code: "PE-CALL", label: "Pest inspection", unit: "job", unitPriceExGst: 95 },
+    { code: "PE-HR", label: "Pest tech labour", unit: "hour", unitPriceExGst: 85 },
     { code: "PE-GEN", label: "General pest spray", unit: "job", unitPriceExGst: 165 },
     { code: "PE-TERM", label: "Termite inspection", unit: "job", unitPriceExGst: 220 },
     { code: "PE-ROD", label: "Rodent treatment", unit: "job", unitPriceExGst: 145 },

@@ -8,7 +8,7 @@ import {
 
 const GROUPS_KEY = "sparehand_trade_groups_v1";
 const TRADES_KEY = "sparehand_trades_v2";
-const RATES_KEY = "sparehand_rates_v4";
+const RATES_KEY = "sparehand_rates_v5";
 const HISTORY_KEY = "sparehand_history_v1";
 
 export { defaultRates, defaultTradeGroups, defaultTrades };
