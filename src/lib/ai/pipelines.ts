@@ -76,8 +76,8 @@ export async function runInboxTriage(input: {
   if (!hasOpenAI(input.ai)) return { result: mockInbox(input.text), mode: "mock" as const };
   try {
     const result = await completeJson({
-      system: `You help Australian SME office staff triage customer enquiries.
-Write draftReply in Australian English unless locale is ko, then Korean.
+      system: `You help SME office staff triage customer enquiries.
+Write draftReply in clear professional English unless locale is ko, then Korean.
 Return JSON keys: urgency (low|medium|high|critical), category, summary, draftReply, actions (string[]), customerName (optional).
 Locale: ${input.locale}`,
       user: input.text,
@@ -98,7 +98,7 @@ export async function runMeetingSummary(input: {
   if (!hasOpenAI(input.ai)) return { result: mockMeeting(input.text), mode: "mock" as const };
   try {
     const result = await completeJson({
-      system: `Summarise SME meeting notes for Australian teams.
+      system: `Summarise SME meeting notes for office teams.
 Return JSON: title, summary, decisions (string[]), actionItems ({task, owner?, due?}[]).
 Locale for prose: ${input.locale}`,
       user: input.text,
@@ -119,8 +119,8 @@ export async function runDocumentExtract(input: {
   if (!hasOpenAI(input.ai)) return { result: mockDocument(), mode: "mock" as const };
   try {
     const result = await completeJson({
-      system: `Extract structured data from Australian business receipts/invoices.
-Amounts in AUD. GST is typically 10%.
+      system: `Extract structured data from business receipts/invoices.
+Prefer amounts in the document's currency. If tax looks like GST/VAT, capture it.
 Return JSON matching: documentType, vendor, date, abn, currency, subtotalExGst, gst, totalIncGst, lineItems[], notes.
 Locale hints: ${input.locale}`,
       user: "Extract all readable commercial fields from this document image.",
@@ -140,6 +140,7 @@ export async function runQuoteDraft(input: {
   rates: RateItem[];
   locale: string;
   areaSqm?: number;
+  tradeName?: string;
   ai?: OpenAiOptions;
 }) {
   const areaSqm = input.areaSqm && input.areaSqm > 0 ? input.areaSqm : 0;
@@ -152,17 +153,18 @@ export async function runQuoteDraft(input: {
   }
   try {
     const result = await completeJson({
-      system: `Create a draft trade/service/interior quote for an Australian SME.
-Use ONLY the provided rate card where possible. Do not invent supplier live prices.
-GST is added later by the app from ex-GST unit prices.
+      system: `Create a draft quote for an SME in the "${input.tradeName || "selected"}" trade.
+Use ONLY the provided selected rate-card lines. Do not invent supplier live prices or extra lines not in the rate card unless clearly call-out/labour already listed.
+Tax (GST-style) is added later by the app from ex-tax unit prices.
 If areaSqm > 0, any rate card items priced per m² / m2 / sqm MUST use quantity = areaSqm.
-Include fixed items (call-out, hourly labour) only when relevant.
+Include fixed items (call-out, hourly labour) only when relevant to the job description.
 Return JSON: jobTitle, assumptions[], lineItems[{code?, description, quantity, unit, unitPriceExGst}], notesForClient.
 Always remind in notesForClient that this is a non-binding draft and final cost may change after site measure.
 Locale: ${input.locale}
 Client: ${input.clientName || "Client"}
+Trade: ${input.tradeName || "n/a"}
 Area m²: ${areaSqm || "not provided"}
-Rate card JSON: ${JSON.stringify(input.rates)}`,
+Selected rate card JSON: ${JSON.stringify(input.rates)}`,
       user: input.job,
       schema: quoteResultSchema,
       ai: input.ai,

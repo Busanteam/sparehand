@@ -1,4 +1,4 @@
-/** Australian GST helpers (standard 10%). */
+/** Tax helpers for the demo quote flow (default 10%, GST-style). */
 
 export const GST_RATE = 0.1;
 

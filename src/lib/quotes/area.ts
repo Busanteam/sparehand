@@ -58,13 +58,24 @@ export function formatQuotePlainText(input: {
   locale: string;
   totals: { ex: number; gst: number; inc: number };
   formatAud: (n: number) => string;
+  labels?: {
+    subtotalExTax: string;
+    taxLabel: string;
+    totalIncTax: string;
+  };
 }): string {
+  const ko = input.locale.startsWith("ko");
+  const labels = input.labels ?? {
+    subtotalExTax: ko ? "소계 (세금 별도)" : "Subtotal (ex tax)",
+    taxLabel: ko ? "세금 (10%)" : "Tax (10%)",
+    totalIncTax: ko ? "합계 (세금 포함)" : "Total (inc tax)",
+  };
   const lines = [
-    `SpareHand — ${input.locale.startsWith("ko") ? "견적 초안" : "Quote draft"}`,
-    `${input.locale.startsWith("ko") ? "고객" : "Client"}: ${input.clientName || "—"}`,
-    `${input.locale.startsWith("ko") ? "작업" : "Job"}: ${input.quote.jobTitle}`,
+    `SpareHand — ${ko ? "견적 초안" : "Quote draft"}`,
+    `${ko ? "고객" : "Client"}: ${input.clientName || "—"}`,
+    `${ko ? "작업" : "Job"}: ${input.quote.jobTitle}`,
     input.areaSqm > 0
-      ? `${input.locale.startsWith("ko") ? "면적" : "Area"}: ${input.areaSqm} m²`
+      ? `${ko ? "면적" : "Area"}: ${input.areaSqm} m²`
       : null,
     "",
     ...(input.quote.lineItems.map(
@@ -72,9 +83,9 @@ export function formatQuotePlainText(input: {
         `- ${line.description}: ${line.quantity} ${line.unit} × ${input.formatAud(line.unitPriceExGst)} = ${input.formatAud(roundMoney(line.quantity * line.unitPriceExGst))}`,
     )),
     "",
-    `Subtotal (ex GST): ${input.formatAud(input.totals.ex)}`,
-    `GST (10%): ${input.formatAud(input.totals.gst)}`,
-    `Total (inc GST): ${input.formatAud(input.totals.inc)}`,
+    `${labels.subtotalExTax}: ${input.formatAud(input.totals.ex)}`,
+    `${labels.taxLabel}: ${input.formatAud(input.totals.gst)}`,
+    `${labels.totalIncTax}: ${input.formatAud(input.totals.inc)}`,
     "",
     input.quote.notesForClient,
     "",

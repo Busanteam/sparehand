@@ -1,5 +1,31 @@
 import { z } from "zod";
 
+export const tradeGroupSchema = z.object({
+  id: z.string(),
+  name: z.string(),
+  nameKo: z.string().optional(),
+});
+
+export const tradeSchema = z.object({
+  id: z.string(),
+  groupId: z.string(),
+  name: z.string(),
+  nameKo: z.string().optional(),
+});
+
+export const rateItemSchema = z.object({
+  id: z.string(),
+  tradeId: z.string(),
+  code: z.string(),
+  label: z.string(),
+  unit: z.string(),
+  unitPriceExGst: z.number(),
+});
+
+export type TradeGroup = z.infer<typeof tradeGroupSchema>;
+export type Trade = z.infer<typeof tradeSchema>;
+export type RateItem = z.infer<typeof rateItemSchema>;
+
 export const inboxResultSchema = z.object({
   urgency: z.enum(["low", "medium", "high", "critical"]),
   category: z.string(),
@@ -57,16 +83,7 @@ export const quoteResultSchema = z.object({
   notesForClient: z.string(),
 });
 
-export const rateItemSchema = z.object({
-  id: z.string(),
-  code: z.string(),
-  label: z.string(),
-  unit: z.string(),
-  unitPriceExGst: z.number(),
-});
-
 export type InboxResult = z.infer<typeof inboxResultSchema>;
 export type MeetingResult = z.infer<typeof meetingResultSchema>;
 export type DocumentResult = z.infer<typeof documentResultSchema>;
 export type QuoteResult = z.infer<typeof quoteResultSchema>;
-export type RateItem = z.infer<typeof rateItemSchema>;

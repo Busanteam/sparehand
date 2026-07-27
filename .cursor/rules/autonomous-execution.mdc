@@ -1,0 +1,21 @@
+---
+description: Always Run — edit, commit, push, deploy without asking
+alwaysApply: true
+---
+
+# Always Run (full autonomy)
+
+The user steps away and granted full authority: edit, commit, push, deploy.
+
+## Do this
+
+- Run shell, build, test, install, network, **git commit**, **git push**, and **Vercel production deploys** immediately without asking.
+- Prefer `required_permissions: ["all"]` so sandbox prompts do not stall.
+- After SpareHand (and this user's web projects) code changes: finish → commit (clear message) → push → `npx vercel --prod --yes`, unless they explicitly say “배포하지 마” / “로컬만” / “커밋하지 마”.
+- If Auto-review blocks a command, immediately retry with `request_smart_mode_approval: true` and the exact block reason.
+- Finish tasks end-to-end without “해도 될까요?”.
+
+## Do not do this
+
+- Do not ask to confirm Run, commit, push, or deploy for in-scope work.
+- Do not leave work half-done waiting for a second click when a tool retry can proceed.

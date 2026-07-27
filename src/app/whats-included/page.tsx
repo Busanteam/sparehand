@@ -12,7 +12,7 @@ export default function WhatsIncludedPage() {
   const s = t.scope;
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-dvh bg-[var(--bg)]">
       <header className="mx-auto flex max-w-5xl items-center justify-between gap-3 px-6 py-6">
         <Link href="/" className="font-[family-name:var(--font-display)] text-xl">
           {t.brand}
@@ -21,8 +21,8 @@ export default function WhatsIncludedPage() {
           <HelpTip
             content={{
               title: s.title,
-              steps: [s.includedLead, s.notIncludedLead, s.promiseBody],
-              tips: [s.promiseTitle],
+              steps: [s.hireLead, s.includedLead, s.promiseBody],
+              tips: [s.hireTitle],
             }}
           />
           <ThemeToggle compact />
@@ -32,7 +32,7 @@ export default function WhatsIncludedPage() {
             onChange={(e) => setLocale(e.target.value as Locale)}
             aria-label={t.common.language}
           >
-            <option value="en-AU">EN (AU)</option>
+            <option value="en-AU">EN</option>
             <option value="ko">한국어</option>
           </select>
         </div>
@@ -40,7 +40,9 @@ export default function WhatsIncludedPage() {
 
       <main className="mx-auto max-w-5xl px-6 pb-16">
         <p className="text-sm font-semibold tracking-[0.16em] text-[var(--accent)] uppercase">
-          For business owners
+          {locale.startsWith("ko")
+            ? "포트폴리오 샘플 · 고용 시 상용 구축"
+            : "Portfolio sample · hire for production"}
         </p>
         <h1 className="mt-2 max-w-3xl font-[family-name:var(--font-display)] text-4xl tracking-tight sm:text-5xl">
           {s.title}
@@ -61,6 +63,19 @@ export default function WhatsIncludedPage() {
             {s.backHome}
           </Link>
         </div>
+
+        <section className="mt-12 border-t border-[var(--line)] pt-10">
+          <h2 className="font-[family-name:var(--font-display)] text-2xl">{s.hireTitle}</h2>
+          <p className="mt-3 max-w-3xl text-[var(--muted)]">{s.hireLead}</p>
+          <ul className="mt-5 max-w-3xl space-y-2 text-sm text-[var(--ink)]">
+            {s.hirePoints.map((point) => (
+              <li key={point} className="flex gap-2">
+                <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-[var(--accent)]" />
+                <span>{point}</span>
+              </li>
+            ))}
+          </ul>
+        </section>
 
         <section className="mt-12">
           <h2 className="font-[family-name:var(--font-display)] text-2xl">{s.includedTitle}</h2>

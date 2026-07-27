@@ -9,6 +9,7 @@ export async function POST(request: Request) {
     job?: string;
     clientName?: string;
     rates?: RateItem[];
+    tradeName?: string;
     locale?: string;
     lengthM?: number;
     widthM?: number;
@@ -17,11 +18,15 @@ export async function POST(request: Request) {
   if (!body.job?.trim()) {
     return NextResponse.json({ error: "job required" }, { status: 400 });
   }
+  if (!body.rates?.length) {
+    return NextResponse.json({ error: "rates required" }, { status: 400 });
+  }
   const areaSqm = calcAreaSqm(body.lengthM, body.widthM, body.areaSqm);
   const { result, mode } = await runQuoteDraft({
     job: body.job,
     clientName: body.clientName ?? "",
-    rates: body.rates ?? [],
+    rates: body.rates,
+    tradeName: body.tradeName,
     locale: body.locale ?? "en-AU",
     areaSqm,
     ai: openAiOptionsFromRequest(request),

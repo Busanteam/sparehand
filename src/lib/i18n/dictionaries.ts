@@ -20,6 +20,7 @@ export type Dictionary = {
     meetings: string;
     documents: string;
     quotes: string;
+    trades: string;
     rates: string;
     integrations: string;
     settings: string;
@@ -80,6 +81,32 @@ export type Dictionary = {
     calculatedArea: string;
     disclaimerTitle: string;
     disclaimerBody: string;
+    tradeLabel: string;
+    tradeHint: string;
+    groupLabel: string;
+    groupHint: string;
+    selectAllRates: string;
+    clearRates: string;
+    ratesSelected: string;
+    noRatesForTrade: string;
+    needRates: string;
+    subtotalExTax: string;
+    taxLabel: string;
+    totalIncTax: string;
+  };
+  trades: {
+    title: string;
+    hint: string;
+    add: string;
+    addTitle: string;
+    nameEn: string;
+    nameKo: string;
+    group: string;
+    preview: string;
+    remove: string;
+    deleteConfirm: string;
+    resetDefaults: string;
+    resetConfirm: string;
   };
   rates: {
     title: string;
@@ -91,6 +118,13 @@ export type Dictionary = {
     label: string;
     unit: string;
     unitPrice: string;
+    trade: string;
+    filterTrade: string;
+    allTrades: string;
+    remove: string;
+    resetDefaults: string;
+    resetConfirm: string;
+    manageTradesHint: string;
   };
   integrations: {
     title: string;
@@ -129,6 +163,7 @@ export type Dictionary = {
     meetings: HelpBlock;
     documents: HelpBlock;
     quotes: HelpBlock;
+    trades: HelpBlock;
     rates: HelpBlock;
     integrations: HelpBlock;
     settings: HelpBlock;
@@ -146,6 +181,36 @@ export type Dictionary = {
     notIncluded: { title: string; body: string }[];
     promiseTitle: string;
     promiseBody: string;
+    hireTitle: string;
+    hireLead: string;
+    hirePoints: string[];
+  };
+  contact: {
+    title: string;
+    desc: string;
+    directMail: string;
+    name: string;
+    namePlaceholder: string;
+    email: string;
+    emailPlaceholder: string;
+    topicLabel: string;
+    topicPlaceholder: string;
+    topicOtherLabel: string;
+    topicOtherPlaceholder: string;
+    detailsLabel: string;
+    detailsPlaceholder: string;
+    send: string;
+    sending: string;
+    success: string;
+    error: string;
+    topics: {
+      starter: string;
+      standard: string;
+      complex: string;
+      hire: string;
+      collab: string;
+      other: string;
+    };
   };
   common: {
     language: string;
@@ -171,22 +236,24 @@ const enAU: Dictionary = {
   brand: "SpareHand",
   tagline: "Do more office work with the people you already have.",
   heroBody:
-    "AI drafts for inbox triage, meeting notes, receipt capture and GST-aware quotes — built for Australian SMEs watching labour costs.",
-  ctaStart: "Open workspace",
-  ctaScope: "What this tool covers",
+    "A working sample of an internal office system: inbox triage, meeting notes, receipt capture and tax-aware quotes — the kind of tool a solo full-stack + AI developer can build for your company.",
+  ctaStart: "Try the sample workspace",
+  ctaScope: "What this sample covers",
   heroSteps: [
     "Inbox — sort enquiries and draft replies",
     "Meetings — turn rough notes into clear actions",
-    "Docs — pull totals and GST from receipts",
+    "Docs — pull totals and tax from receipts",
     "Quotes — build drafts from your own price list",
   ],
-  heroNote: "Built for busy owners: SpareHand drafts, you approve before anything goes to a customer.",
+  heroNote:
+    "No sign-up: this public demo stores sample data in your browser. Hire me to turn it into a private internal system with a proper database for your team.",
   nav: {
     dashboard: "Dashboard",
     inbox: "Inbox triage",
     meetings: "Meeting notes",
     documents: "Docs & OCR",
     quotes: "Quotes",
+    trades: "Trades",
     rates: "Rate card",
     integrations: "Integrations",
     settings: "AI key",
@@ -198,7 +265,7 @@ const enAU: Dictionary = {
       inbox: "Classify enquiries and draft replies",
       meetings: "Turn rough notes into actions",
       documents: "Extract receipts and paperwork",
-      quotes: "Build GST drafts from your rates",
+      quotes: "Build quote drafts from your rates",
     },
   },
   inbox: {
@@ -222,19 +289,19 @@ const enAU: Dictionary = {
   },
   documents: {
     title: "Documents & OCR",
-    hint: "Upload a receipt or paperwork image. AI extracts totals, GST and line items for review.",
+    hint: "Upload a receipt or paperwork image. AI extracts totals, tax and line items for review.",
     run: "Extract",
     drop: "Drop an image here or choose a file",
     vendor: "Supplier",
     total: "Total",
-    gst: "GST",
+    gst: "Tax",
     lines: "Line items",
   },
   quotes: {
     title: "Quote drafts",
-    hint: "Describe the job and set the work area. m² rate-card lines scale with size, then GST is added.",
+    hint: "Pick a category and specialty, tick the rate lines you need, set area if priced per m², then draft.",
     placeholder:
-      "e.g. Repaint living room walls and ceiling, north Brisbane…",
+      "e.g. Repaint living room walls and ceiling for a 2-bedroom apartment…",
     run: "Draft quote",
     client: "Client name",
     exportPdf: "Download PDF draft",
@@ -250,17 +317,50 @@ const enAU: Dictionary = {
     disclaimerTitle: "Draft only — final cost may change",
     disclaimerBody:
       "This estimate is a working draft for discussion. After site measure, material choices, access or variations, the real price can differ. Copy/PDF includes the same notice.",
+    tradeLabel: "Trade / specialty",
+    tradeHint: "Pick a category, then the specialty. Only that specialty’s rates are shown.",
+    groupLabel: "Category",
+    groupHint: "Related trades are grouped (e.g. Interior finishes).",
+    selectAllRates: "Select all",
+    clearRates: "Clear",
+    ratesSelected: "selected",
+    noRatesForTrade: "No rates for this trade yet — add some on the Rate card page.",
+    needRates: "Select at least one rate line for this trade.",
+    subtotalExTax: "Subtotal (ex tax)",
+    taxLabel: "Tax (10%)",
+    totalIncTax: "Total (inc tax)",
+  },
+  trades: {
+    title: "Trades",
+    hint: "Trades sit under categories. Add specialties your company quotes for.",
+    add: "Add trade",
+    addTitle: "New trade",
+    nameEn: "Name (English)",
+    nameKo: "Name (Korean, optional)",
+    group: "Category",
+    preview: "Shows as",
+    remove: "Remove",
+    deleteConfirm: "Remove this trade? Its rates will move to another trade.",
+    resetDefaults: "Restore starter trades",
+    resetConfirm: "Replace your trade list with the starter set?",
   },
   rates: {
     title: "Rate card",
-    hint: "Your labour and materials prices. Quotes never scrape live supplier sites — you own the numbers.",
+    hint: "Rates are grouped by category → specialty. Filter, edit, or add lines.",
     add: "Add line",
     importCsv: "Import CSV",
     exportCsv: "Export CSV",
     code: "Code",
     label: "Description",
     unit: "Unit",
-    unitPrice: "Unit price (ex GST)",
+    unitPrice: "Unit price (ex tax)",
+    trade: "Trade",
+    filterTrade: "Filter",
+    allTrades: "All trades",
+    remove: "Remove",
+    resetDefaults: "Restore starter rates",
+    resetConfirm: "Replace your rate card with the multi-trade starter set?",
+    manageTradesHint: "Need a new profession?",
   },
   integrations: {
     title: "Integrations",
@@ -339,36 +439,47 @@ const enAU: Dictionary = {
       steps: [
         "Take a clear photo of a receipt or invoice.",
         "Upload the image on this page.",
-        "Press Extract and review supplier, totals and GST.",
+        "Press Extract and review supplier, totals and tax.",
         "Fix any wrong numbers before bookkeeping.",
       ],
       tips: [
         "Good lighting and a flat page improve accuracy.",
-        "This is a draft extract — always double-check GST.",
+        "This is a draft extract — always double-check tax figures.",
       ],
     },
     quotes: {
       title: "Quote drafts",
       steps: [
-        "Add or check your prices in Rate card (use unit m² for area work).",
-        "Enter client name, set length×width or total m², and describe the job.",
-        "Press Draft quote — m² lines use the calculated area.",
-        "Review numbers, then Copy draft or Download PDF (disclaimer included).",
+        "Choose a category (e.g. Interior finishes), then the specialty.",
+        "Tick the rate lines you want on this quote.",
+        "Set area if any lines are priced per m², then describe the job.",
+        "Draft, review, then Copy or PDF (disclaimer included).",
       ],
       tips: [
-        "Interior jobs usually need area. Painting/flooring rates should use unit m².",
-        "Copied text always includes a draft disclaimer so clients are not misled.",
+        "Related trades are grouped — add more specialties under Trades.",
+        "Only selected rates are sent to AI, so quotes stay focused.",
+      ],
+    },
+    trades: {
+      title: "Trades",
+      steps: [
+        "Review categories and specialties in the starter list.",
+        "Add any specialty your company quotes for, under the right category.",
+        "Save, then attach rate lines on Rate card.",
+      ],
+      tips: [
+        "Korean name is optional — used when the app language is Korean.",
       ],
     },
     rates: {
       title: "Your price list",
       steps: [
-        "Add labour and materials lines you use often.",
-        "Enter unit prices excluding GST.",
-        "Press Save locally so Quotes can use them.",
+        "Filter by trade to focus the list.",
+        "Add labour and materials lines; set unit to m² for area work.",
+        "Save locally so Quotes can use them.",
         "Optional: Import or Export CSV for spreadsheet backups.",
       ],
-      tips: ["Keep codes short (e.g. LAB-HR) so quote drafts stay tidy."],
+      tips: ["Keep codes short (e.g. PT-WALL) so quote drafts stay tidy."],
     },
     integrations: {
       title: "Connections",
@@ -398,14 +509,14 @@ const enAU: Dictionary = {
   scope: {
     title: "What SpareHand covers",
     subtitle:
-      "Plain-English guide for business owners. No tech jargon — just what helps your team today, and what we intentionally leave out.",
+      "This public page is a short working sample. Hire me to build a private internal system for your company — including database design and setup.",
     backHome: "Back to home",
-    openApp: "Try the workspace",
-    includedTitle: "Included now",
-    includedLead: "These are ready to use and aimed at everyday admin bottlenecks.",
-    notIncludedTitle: "Not included (on purpose)",
+    openApp: "Try the sample",
+    includedTitle: "Included in this sample",
+    includedLead: "These flows already work in the demo and show the shape of a real internal tool.",
+    notIncludedTitle: "Not in this public sample",
     notIncludedLead:
-      "We keep the product simple so it stays reliable. These belong in a bigger IT project later if you need them.",
+      "The live demo keeps data in the browser on purpose. A hired build can add the heavier pieces below.",
     included: [
       {
         title: "Sort customer messages",
@@ -417,11 +528,11 @@ const enAU: Dictionary = {
       },
       {
         title: "Read receipts & paperwork",
-        body: "Upload a photo and pull out supplier, totals, GST and line items for review.",
+        body: "Upload a photo and pull out supplier, totals, tax and line items for review.",
       },
       {
-        title: "Draft quotes with GST",
-        body: "Describe a job and build a draft from your own price list, including 10% GST.",
+        title: "Draft quotes with tax",
+        body: "Describe a job and build a draft from your own price list, including demo tax at 10%.",
       },
       {
         title: "Keep your own price list",
@@ -438,25 +549,62 @@ const enAU: Dictionary = {
     ],
     notIncluded: [
       {
+        title: "Shared company database",
+        body: "Not in the public demo — I can design and host Postgres / Supabase (or your preferred DB) for your team.",
+      },
+      {
+        title: "Staff login & roles",
+        body: "Sign-in, permissions and audit history belong in a private internal deployment.",
+      },
+      {
         title: "Desktop screen robots",
         body: "Software that clicks around Windows apps for you needs a separate specialist setup.",
       },
       {
-        title: "Live Excel always-on sync",
-        body: "We support simple file import/export instead of fragile real-time spreadsheet links.",
-      },
-      {
-        title: "Rebuilding Monday or ClickUp",
-        body: "Deep rebuilds inside other platforms are a custom project — not this starter tool.",
-      },
-      {
-        title: "Auto-buying live supplier prices",
-        body: "Your quote uses your rates, so margins stay under your control.",
+        title: "Deep rebuilds of Monday / ClickUp",
+        body: "Heavy platform rebuilds are a custom project on top of this sample.",
       },
     ],
     promiseTitle: "Our simple rule",
     promiseBody:
       "Every AI result is a draft. A person always reviews before anything is sent to a customer or used for tax paperwork.",
+    hireTitle: "Internal systems & databases",
+    hireLead:
+      "SpareHand here is a portfolio prototype: no account required. If you hire me, I build a private internal system for your company and can design, size and set up the database to match how you work.",
+    hirePoints: [
+      "Private company workspace (not a public multi-tenant SaaS unless you ask for that)",
+      "Database design: tables, relationships, backups and sensible growth room",
+      "Staff access, roles and secure storage instead of browser-only sample data",
+      "Extend the modules you see here — quotes, rates, inbox, docs — to your real process",
+    ],
+  },
+  contact: {
+    title: "Get in touch",
+    desc: "Saw SpareHand and want a private internal system, a quote, or to discuss hiring? Pick a topic, then add a short brief — I’ll reply by email.",
+    directMail: "Or email directly:",
+    name: "Name or company",
+    namePlaceholder: "Your name or company",
+    email: "Email",
+    emailPlaceholder: "you@company.com",
+    topicLabel: "Inquiry type",
+    topicPlaceholder: "Select a topic…",
+    topicOtherLabel: "Describe your topic",
+    topicOtherPlaceholder: "What is this about?",
+    detailsLabel: "Project brief",
+    detailsPlaceholder:
+      "Company / trade, team size, must-have features, existing data, budget range, and preferred timing…",
+    send: "Send message",
+    sending: "Sending…",
+    success: "Thanks — your message was sent. I’ll get back to you soon.",
+    error: "Couldn’t send the form. Please email",
+    topics: {
+      starter: "Starter — small internal tool + DB",
+      standard: "Standard — multi-user roles & quote/jobs",
+      complex: "Complex — multi-site, integrations, reporting",
+      hire: "Hiring / employment inquiry",
+      collab: "Collaboration or consulting",
+      other: "Other",
+    },
   },
   common: {
     language: "Language",
@@ -482,22 +630,24 @@ const ko: Dictionary = {
   brand: "SpareHand",
   tagline: "지금 있는 인력으로 사무 생산성을 끌어올리세요.",
   heroBody:
-    "문의 분류, 회의록, 영수증 OCR, GST 견적 초안까지 — 인건비 부담이 큰 호주 SME를 위한 AI 사무 보조 툴입니다.",
-  ctaStart: "워크스페이스 열기",
-  ctaScope: "이 툴이 도와주는 것",
+    "사내 사무 시스템의 동작 샘플입니다. 문의 분류, 회의록, 영수증 OCR, 세금 반영 견적까지 — 풀스택·AI 개발자를 고용하면 귀사 업무에 맞춰 이런 시스템을 구축할 수 있습니다.",
+  ctaStart: "샘플 워크스페이스 열기",
+  ctaScope: "이 샘플이 보여주는 것",
   heroSteps: [
     "문의 — 고객 메시지 분류와 답장 초안",
     "회의 — 메모를 할 일로 정리",
-    "문서 — 영수증에서 합계·GST 추출",
+    "문서 — 영수증에서 합계·세금 추출",
     "견적 — 내 단가표로 초안 작성",
   ],
-  heroNote: "바쁜 사장님을 위해 설계했습니다. SpareHand가 초안을 만들고, 고객에게 보내기 전 확인은 사람이 합니다.",
+  heroNote:
+    "회원가입 없이 바로 체험할 수 있습니다(샘플 데이터는 브라우저에 저장). 고용하시면 팀용 사내 시스템과 정식 DB 설계·구축까지 진행합니다.",
   nav: {
     dashboard: "대시보드",
     inbox: "문의 분류",
     meetings: "회의록",
     documents: "문서·OCR",
     quotes: "견적",
+    trades: "직군",
     rates: "단가표",
     integrations: "연동",
     settings: "AI 키",
@@ -509,7 +659,7 @@ const ko: Dictionary = {
       inbox: "문의 분류와 답장 초안",
       meetings: "메모를 할 일로 정리",
       documents: "영수증·서류 추출",
-      quotes: "단가표 기반 GST 견적",
+      quotes: "단가표 기반 견적 초안",
     },
   },
   inbox: {
@@ -533,18 +683,18 @@ const ko: Dictionary = {
   },
   documents: {
     title: "문서·OCR",
-    hint: "영수증·서류 이미지를 올리면 합계, GST, 품목을 추출합니다. 반드시 검토하세요.",
+    hint: "영수증·서류 이미지를 올리면 합계, 세금, 품목을 추출합니다. 반드시 검토하세요.",
     run: "추출",
     drop: "이미지를 놓거나 파일을 선택하세요",
     vendor: "공급처",
     total: "합계",
-    gst: "GST",
+    gst: "세금",
     lines: "품목",
   },
   quotes: {
     title: "견적 초안",
-    hint: "작업 설명과 면적을 넣으면 m² 단가 항목이 크기에 맞게 계산되고 GST가 붙습니다.",
-    placeholder: "예: 거실 벽·천장 페인트, 북부 브리즈번…",
+    hint: "카테고리와 세부 직종을 고르고, 넣을 단가 항목을 선택한 뒤, 필요하면 면적을 넣고 초안을 만듭니다.",
+    placeholder: "예: 투룸 아파트 거실 벽·천장 페인트…",
     run: "견적 초안",
     client: "고객명",
     exportPdf: "PDF 초안 다운로드",
@@ -560,17 +710,50 @@ const ko: Dictionary = {
     disclaimerTitle: "초안입니다 — 실제 비용은 달라질 수 있음",
     disclaimerBody:
       "본 견적은 협의용 초안입니다. 현장 실측, 자재, 접근 조건, 변경에 따라 금액이 바뀔 수 있습니다. 복사/PDF에도 같은 고지가 포함됩니다.",
+    tradeLabel: "세부 직종",
+    tradeHint: "카테고리를 고른 뒤 세부 직종을 선택하세요. 해당 직종의 단가만 보입니다.",
+    groupLabel: "직군 카테고리",
+    groupHint: "관련 직종을 묶어 둡니다 (예: 실내 마감).",
+    selectAllRates: "전체 선택",
+    clearRates: "선택 해제",
+    ratesSelected: "개 선택",
+    noRatesForTrade: "이 직종에 단가가 없습니다. 단가표에서 추가하세요.",
+    needRates: "이 직종에서 단가 항목을 하나 이상 선택하세요.",
+    subtotalExTax: "소계 (세금 별도)",
+    taxLabel: "세금 (10%)",
+    totalIncTax: "합계 (세금 포함)",
+  },
+  trades: {
+    title: "직군",
+    hint: "직종은 카테고리 아래에 둡니다. 회사가 견적 내는 세부 직종을 추가하세요.",
+    add: "직종 추가",
+    addTitle: "새 직종",
+    nameEn: "이름 (영어)",
+    nameKo: "이름 (한국어, 선택)",
+    group: "카테고리",
+    preview: "표시 이름",
+    remove: "삭제",
+    deleteConfirm: "이 직종을 삭제할까요? 연결된 단가는 다른 직종으로 옮깁니다.",
+    resetDefaults: "기본 직군 복원",
+    resetConfirm: "직군 목록을 기본 세트로 바꿀까요?",
   },
   rates: {
     title: "단가표",
-    hint: "인건비·자재 단가는 직접 관리합니다. 실시간 시세 크롤링은 하지 않습니다.",
+    hint: "단가는 카테고리 → 세부 직종 순으로 묶여 있습니다. 필터·수정·추가하세요.",
     add: "항목 추가",
     importCsv: "CSV 가져오기",
     exportCsv: "CSV 내보내기",
     code: "코드",
     label: "설명",
     unit: "단위",
-    unitPrice: "단가 (GST 별도)",
+    unitPrice: "단가 (세금 별도)",
+    trade: "직군",
+    filterTrade: "필터",
+    allTrades: "전체 직군",
+    remove: "삭제",
+    resetDefaults: "기본 단가 복원",
+    resetConfirm: "단가표를 여러 직군 기본 세트로 바꿀까요?",
+    manageTradesHint: "새 직군이 필요하면",
   },
   integrations: {
     title: "연동",
@@ -649,36 +832,45 @@ const ko: Dictionary = {
       steps: [
         "영수증/청구서를 선명하게 촬영합니다.",
         "이 페이지에 이미지를 올립니다.",
-        "‘추출’을 누르고 공급처·합계·GST를 확인합니다.",
+        "‘추출’을 누르고 공급처·합계·세금을 확인합니다.",
         "장부 반영 전에 틀린 숫자를 고칩니다.",
       ],
       tips: [
         "밝은 조명과 평평한 촬영이 정확도를 높입니다.",
-        "추출 결과는 초안입니다. GST는 반드시 재확인하세요.",
+        "추출 결과는 초안입니다. 세금 항목은 반드시 재확인하세요.",
       ],
     },
     quotes: {
       title: "견적 초안",
       steps: [
-        "단가표에서 가격을 확인하세요 (면적 작업은 단위를 m²로).",
-        "고객명, 가로×세로 또는 총 m², 작업 내용을 입력합니다.",
-        "‘견적 초안’을 누르면 m² 항목이 면적으로 계산됩니다.",
-        "숫자 확인 후 초안 복사 또는 PDF 다운로드 (고지 문구 포함).",
+        "카테고리(예: 실내 마감)를 고른 뒤 세부 직종을 선택합니다.",
+        "이번 견적에 넣을 단가 항목을 체크합니다.",
+        "m² 단가가 있으면 면적을 넣고 작업을 설명합니다.",
+        "초안 확인 후 복사 또는 PDF (고지 포함).",
       ],
       tips: [
-        "인테리어는 면적 입력이 중요합니다. 페인트·바닥 단가는 m²로 두세요.",
-        "복사본에도 초안 고지가 들어가 고객 오해를 줄입니다.",
+        "관련 직종은 카테고리로 묶여 있습니다 — ‘직군’에서 세부 직종을 추가하세요.",
+        "선택한 단가만 AI에 전달되어 견적이 깔끔해집니다.",
       ],
+    },
+    trades: {
+      title: "직군",
+      steps: [
+        "카테고리와 세부 직종 기본 목록을 확인합니다.",
+        "견적 내는 세부 직종을 알맞은 카테고리 아래에 추가합니다.",
+        "저장한 뒤 단가표에서 단가를 붙입니다.",
+      ],
+      tips: ["한국어 이름은 선택 사항이며, 앱 언어가 한국어일 때 사용됩니다."],
     },
     rates: {
       title: "단가표",
       steps: [
-        "자주 쓰는 인건비·자재 항목을 추가합니다.",
-        "GST 별도 단가를 입력합니다.",
-        "‘로컬 저장’을 눌러 견적에서 쓰이게 합니다.",
+        "직군으로 필터해 목록을 좁힙니다.",
+        "인건비·자재 항목을 추가하고, 면적 작업은 단위를 m²로 둡니다.",
+        "저장해 견적에서 쓰이게 합니다.",
         "필요하면 CSV로 가져오기/내보내기 합니다.",
       ],
-      tips: ["코드는 짧게 (예: LAB-HR) 두면 견적 초안이 깔끔합니다."],
+      tips: ["코드는 짧게 (예: PT-WALL) 두면 견적 초안이 깔끔합니다."],
     },
     integrations: {
       title: "연동",
@@ -704,16 +896,16 @@ const ko: Dictionary = {
     },
   },
   scope: {
-    title: "SpareHand가 도와주는 것",
+    title: "SpareHand가 보여주는 것",
     subtitle:
-      "개발 지식이 없어도 읽히는 안내입니다. 지금 바로 도움이 되는 것과, 일부러 빼 둔 것을 쉽게 정리했습니다.",
+      "공개 페이지는 짧은 동작 샘플입니다. 고용하시면 귀사 전용 사내 시스템을 만들고, DB 설계·구축까지 함께 진행할 수 있습니다.",
     backHome: "홈으로",
-    openApp: "워크스페이스 써보기",
-    includedTitle: "지금 포함",
-    includedLead: "매일 반복되는 사무 병목을 줄이기 위해 바로 쓸 수 있습니다.",
-    notIncludedTitle: "포함하지 않음 (의도적)",
+    openApp: "샘플 써보기",
+    includedTitle: "이 샘플에 포함",
+    includedLead: "데모에서 이미 동작하며, 실제 사내 툴의 형태를 보여 줍니다.",
+    notIncludedTitle: "공개 샘플에는 없음",
     notIncludedLead:
-      "제품을 단순하고 안정적으로 유지하기 위해 아래는 제외했습니다. 필요하면 나중에 별도 IT 프로젝트로 확장하면 됩니다.",
+      "공개 데모는 의도적으로 브라우저에만 데이터를 둡니다. 고용 빌드에서는 아래를 추가할 수 있습니다.",
     included: [
       {
         title: "고객 메시지 정리",
@@ -725,11 +917,11 @@ const ko: Dictionary = {
       },
       {
         title: "영수증·서류 읽기",
-        body: "사진을 올리면 공급처, 합계, GST, 품목을 추출해 검토할 수 있습니다.",
+        body: "사진을 올리면 공급처, 합계, 세금, 품목을 추출해 검토할 수 있습니다.",
       },
       {
-        title: "GST 견적 초안",
-        body: "작업 설명과 내 단가표로 10% GST 포함 견적 초안을 만듭니다.",
+        title: "세금 포함 견적 초안",
+        body: "작업 설명과 내 단가표로 세금(데모 10%) 포함 견적 초안을 만듭니다.",
       },
       {
         title: "내 단가표 관리",
@@ -746,25 +938,62 @@ const ko: Dictionary = {
     ],
     notIncluded: [
       {
+        title: "회사 공용 데이터베이스",
+        body: "공개 데모에는 없습니다. Postgres / Supabase 등 팀용 DB 설계·호스팅을 구축해 드릴 수 있습니다.",
+      },
+      {
+        title: "직원 로그인·권한",
+        body: "로그인, 역할, 감사 기록은 비공개 사내 배포에서 넣습니다.",
+      },
+      {
         title: "데스크톱 화면 로봇",
         body: "윈도우 프로그램을 대신 클릭하는 자동화는 별도 전문 설정이 필요합니다.",
       },
       {
-        title: "엑셀 실시간 자동 동기화",
-        body: "깨지기 쉬운 실시간 연결 대신, 간단한 파일 가져오기/내보내기를 지원합니다.",
-      },
-      {
-        title: "Monday·ClickUp 전체 재구축",
-        body: "다른 플랫폼을 깊게 개조하는 작업은 맞춤 프로젝트입니다.",
-      },
-      {
-        title: "매장 시세 자동 수집",
-        body: "견적은 사장님 단가 기준이라 마진을 직접 통제할 수 있습니다.",
+        title: "Monday·ClickUp 깊은 재구축",
+        body: "다른 플랫폼을 깊게 개조하는 작업은 이 샘플 위의의 맞춤 프로젝트입니다.",
       },
     ],
     promiseTitle: "우리의 간단한 원칙",
     promiseBody:
       "AI 결과는 모두 초안입니다. 고객에게 보내거나 세무 서류로 쓰기 전에 사람이 반드시 확인합니다.",
+    hireTitle: "사내 시스템 · DB 구축",
+    hireLead:
+      "지금 보시는 SpareHand는 포트폴리오용 프로토타입이며 회원가입이 필요 없습니다. 고용하시면 귀사 전용 사내 시스템을 만들고, 업무에 맞는 DB 설계·용량·구축까지 진행할 수 있습니다.",
+    hirePoints: [
+      "회사 내부용 워크스페이스 (요청 시에만 공개형 SaaS로 확장)",
+      "DB 설계: 테이블·관계·백업·성장 여유까지",
+      "직원 접근·권한·안전한 저장 (브라우저 샘플 데이터 대신)",
+      "견적·단가·문의·문서 등 샘플 모듈을 실제 업무 흐름에 맞게 확장",
+    ],
+  },
+  contact: {
+    title: "문의하기",
+    desc: "SpareHand를 보시고 사내 시스템 구축, 견적, 채용 문의가 있으시면 주제를 고른 뒤 간단한 의뢰 내용을 적어 주세요. 이메일로 답변드립니다.",
+    directMail: "또는 직접 메일:",
+    name: "이름 또는 회사명",
+    namePlaceholder: "이름 / 회사명",
+    email: "이메일",
+    emailPlaceholder: "you@company.com",
+    topicLabel: "문의 유형",
+    topicPlaceholder: "주제를 선택하세요…",
+    topicOtherLabel: "기타 주제 입력",
+    topicOtherPlaceholder: "어떤 문의인지 적어 주세요",
+    detailsLabel: "의뢰 내용",
+    detailsPlaceholder:
+      "업종, 사용 인원, 꼭 필요한 기능, 기존 데이터, 예산 범위, 희망 일정 등을 자유롭게 적어 주세요…",
+    send: "메시지 보내기",
+    sending: "전송 중…",
+    success: "전송되었습니다. 확인 후 이메일로 연락드리겠습니다.",
+    error: "전송에 실패했습니다. 아래 메일로 직접 보내 주세요:",
+    topics: {
+      starter: "스타터 — 소형 사내 툴 + DB",
+      standard: "스탠다드 — 다인·역할·견적/작업",
+      complex: "복잡 — 다지점·연동·리포트",
+      hire: "채용 / 고용 문의",
+      collab: "협업 · 컨설팅",
+      other: "기타",
+    },
   },
   common: {
     language: "언어",

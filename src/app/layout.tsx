@@ -21,18 +21,21 @@ const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://sparehand.vercel.ap
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "SpareHand — Office help for Australian SMEs",
+    default: "SpareHand — Office help for SMEs short on staff",
     template: "%s · SpareHand",
   },
   description:
-    "Inbox triage, meeting notes, receipt capture and GST quote drafts for Australian SMEs stretching limited headcount.",
+    "Inbox triage, meeting notes, receipt capture and tax-aware quote drafts for small businesses stretching limited headcount.",
   applicationName: "SpareHand",
   icons: {
     icon: [
-      { url: "/favicon.svg", type: "image/svg+xml" },
-      { url: "/icon.png", type: "image/png" },
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/favicon-32.png", type: "image/png", sizes: "32x32" },
+      { url: "/icon-192.png", type: "image/png", sizes: "192x192" },
+      { url: "/icon-512.png", type: "image/png", sizes: "512x512" },
     ],
-    apple: [{ url: "/icon.png" }],
+    apple: [{ url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],
+    shortcut: ["/favicon.ico"],
   },
   openGraph: {
     type: "website",
@@ -41,22 +44,22 @@ export const metadata: Metadata = {
     siteName: "SpareHand",
     title: "SpareHand — Office help for SMEs short on staff",
     description:
-      "AI drafts for enquiries, meetings, receipts and GST quotes. Built for Australian small businesses.",
+      "AI drafts for enquiries, meetings, receipts and quotes. Built as a working sample of an internal office system.",
     images: [
       {
-        url: "/og.png",
-        width: 1376,
-        height: 768,
+        url: "/og.jpg",
+        width: 1200,
+        height: 630,
         alt: "SpareHand — Office help for SMEs short on staff",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "SpareHand — Office help for Australian SMEs",
+    title: "SpareHand — Office help for SMEs short on staff",
     description:
-      "AI drafts for enquiries, meetings, receipts and GST quotes. Review before you send.",
-    images: ["/og.png"],
+      "AI drafts for enquiries, meetings, receipts and quotes. Review before you send.",
+    images: ["/og.jpg"],
   },
 };
 
@@ -87,7 +90,7 @@ export default function RootLayout({
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
       </head>
-      <body className="min-h-full antialiased">
+      <body className="min-h-full bg-[var(--bg)] antialiased">
         <ThemeProvider>
           <I18nProvider>{children}</I18nProvider>
         </ThemeProvider>

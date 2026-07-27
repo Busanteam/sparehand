@@ -49,11 +49,20 @@ html.dark {
   --font-display: var(--font-display);
 }
 
+html {
+  background-color: var(--bg);
+  min-height: 100%;
+}
+
 body {
-  background:
+  min-height: 100%;
+  /* Solid base on both html + body so long pages (e.g. EN copy) never show a seam. */
+  background-color: var(--bg);
+  background-image:
     radial-gradient(1200px 500px at 10% -10%, var(--glow-a) 0%, transparent 55%),
-    radial-gradient(900px 420px at 100% 0%, var(--glow-b) 0%, transparent 50%),
-    var(--bg);
+    radial-gradient(900px 420px at 100% 0%, var(--glow-b) 0%, transparent 50%);
+  background-repeat: no-repeat;
+  background-attachment: fixed;
   color: var(--ink);
   font-family: var(--font-body), system-ui, sans-serif;
   transition: background-color 0.2s ease, color 0.2s ease;

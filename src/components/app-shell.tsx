@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
+  Briefcase,
   FileText,
   Inbox,
   KeyRound,
@@ -23,6 +24,7 @@ const links = [
   { href: "/app/meetings", key: "meetings", icon: NotebookPen },
   { href: "/app/documents", key: "documents", icon: FileText },
   { href: "/app/quotes", key: "quotes", icon: Receipt },
+  { href: "/app/trades", key: "trades", icon: Briefcase },
   { href: "/app/rates", key: "rates", icon: Tags },
   { href: "/app/integrations", key: "integrations", icon: Plug },
   { href: "/app/settings", key: "settings", icon: KeyRound },
@@ -48,7 +50,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
                 value={locale}
                 onChange={(e) => setLocale(e.target.value as Locale)}
               >
-                <option value="en-AU">EN (AU)</option>
+                <option value="en-AU">EN</option>
                 <option value="ko">한국어</option>
               </select>
             </label>

@@ -10,7 +10,8 @@ import {
   StepLabel,
   TextArea,
 } from "@/components/ui";
-import type { QuoteResult } from "@/lib/ai/schemas";
+import type { QuoteResult, RateItem, Trade, TradeGroup } from "@/lib/ai/schemas";
+import { groupDisplayName, tradeDisplayName } from "@/lib/catalog/defaults";
 import {
   formatAud,
   gstComponentFromEx,
@@ -21,9 +22,15 @@ import {
   disclaimerForLocale,
   formatQuotePlainText,
 } from "@/lib/quotes/area";
-import { buildQuotePdf } from "@/lib/quotes/pdf";
 import { aiFetchInit } from "@/lib/storage/ai-config";
-import { loadRates, pushHistory } from "@/lib/storage/local";
+import {
+  loadRates,
+  loadTradeGroups,
+  loadTrades,
+  pushHistory,
+  ratesForTrade,
+  tradesInGroup,
+} from "@/lib/storage/local";
 
 export default function QuotesPage() {
   const { t, locale } = useI18n();
@@ -37,11 +44,43 @@ export default function QuotesPage() {
   const [usedArea, setUsedArea] = useState(0);
   const [error, setError] = useState("");
   const [copied, setCopied] = useState(false);
-  const [rates, setRates] = useState(loadRates());
+  const [groups, setGroups] = useState<TradeGroup[]>([]);
+  const [trades, setTrades] = useState<Trade[]>([]);
+  const [rates, setRates] = useState<RateItem[]>([]);
+  const [groupId, setGroupId] = useState("");
+  const [tradeId, setTradeId] = useState("");
+  const [selectedIds, setSelectedIds] = useState<string[]>([]);
 
   useEffect(() => {
-    setRates(loadRates());
+    const loadedGroups = loadTradeGroups();
+    const loadedTrades = loadTrades();
+    const loadedRates = loadRates();
+    setGroups(loadedGroups);
+    setTrades(loadedTrades);
+    setRates(loadedRates);
+    const firstGroup = loadedGroups[0]?.id ?? "";
+    setGroupId(firstGroup);
+    const firstTrade = tradesInGroup(loadedTrades, firstGroup)[0]?.id ?? "";
+    setTradeId(firstTrade);
+    if (firstTrade) {
+      setSelectedIds(ratesForTrade(loadedRates, firstTrade).map((r) => r.id));
+    }
   }, []);
+
+  const groupTrades = useMemo(
+    () => (groupId ? tradesInGroup(trades, groupId) : []),
+    [trades, groupId],
+  );
+
+  const tradeRates = useMemo(
+    () => (tradeId ? ratesForTrade(rates, tradeId) : []),
+    [rates, tradeId],
+  );
+
+  const selectedRates = useMemo(
+    () => tradeRates.filter((r) => selectedIds.includes(r.id)),
+    [tradeRates, selectedIds],
+  );
 
   const previewArea = useMemo(
     () =>
@@ -63,10 +102,36 @@ export default function QuotesPage() {
     return { ex: roundMoney(ex), gst, inc: roundMoney(ex + gst) };
   }, [result]);
 
+  function toggleRate(id: string) {
+    setSelectedIds((prev) =>
+      prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id],
+    );
+  }
+
+  function selectAllRates() {
+    setSelectedIds(tradeRates.map((r) => r.id));
+  }
+
+  function clearRateSelection() {
+    setSelectedIds([]);
+  }
+
   async function run() {
+    if (selectedRates.length === 0) {
+      setError(t.quotes.needRates);
+      return;
+    }
     setLoading(true);
     setError("");
     try {
+      const trade = trades.find((tr) => tr.id === tradeId);
+      const group = groups.find((g) => g.id === groupId);
+      const tradeLabel = [
+        group ? groupDisplayName(group, locale) : null,
+        trade ? tradeDisplayName(trade, locale) : null,
+      ]
+        .filter(Boolean)
+        .join(" · ");
       const res = await fetch(
         "/api/ai/quote",
         aiFetchInit({
@@ -74,7 +139,8 @@ export default function QuotesPage() {
           body: JSON.stringify({
             job,
             clientName,
-            rates,
+            rates: selectedRates,
+            tradeName: tradeLabel || undefined,
             locale,
             lengthM: Number(lengthM) || undefined,
             widthM: Number(widthM) || undefined,
@@ -89,7 +155,11 @@ export default function QuotesPage() {
       pushHistory({
         kind: "quote",
         title: data.result.jobTitle || "Quote",
-        payload: { ...data.result, areaSqm: data.areaSqm },
+        payload: {
+          ...data.result,
+          areaSqm: data.areaSqm,
+          tradeId,
+        },
       });
     } catch {
       setError(t.common.error);
@@ -98,14 +168,20 @@ export default function QuotesPage() {
     }
   }
 
-  function downloadPdf() {
+  async function downloadPdf() {
     if (!result) return;
+    const { buildQuotePdf } = await import("@/lib/quotes/pdf");
     const doc = buildQuotePdf({
       businessName: "SpareHand Demo Business",
       clientName,
       quote: result,
       areaSqm: usedArea,
       locale,
+      labels: {
+        subtotalExTax: t.quotes.subtotalExTax,
+        taxLabel: t.quotes.taxLabel,
+        totalIncTax: t.quotes.totalIncTax,
+      },
     });
     doc.save(`sparehand-quote-draft.pdf`);
   }
@@ -119,6 +195,11 @@ export default function QuotesPage() {
       locale,
       totals,
       formatAud,
+      labels: {
+        subtotalExTax: t.quotes.subtotalExTax,
+        taxLabel: t.quotes.taxLabel,
+        totalIncTax: t.quotes.totalIncTax,
+      },
     });
     await navigator.clipboard.writeText(text);
     setCopied(true);
@@ -141,6 +222,99 @@ export default function QuotesPage() {
             value={clientName}
             onChange={(e) => setClientName(e.target.value)}
           />
+
+          <div className="rounded-xl border border-[var(--line)] bg-[var(--surface)] p-4">
+            <label className="block text-sm font-semibold">
+              {t.quotes.groupLabel}
+              <select
+                className="sh-select mt-2 w-full rounded-xl border border-[var(--line)] bg-[var(--panel)] py-2.5 pl-3 text-sm font-normal text-[var(--ink)]"
+                value={groupId}
+                onChange={(e) => {
+                  const nextGroup = e.target.value;
+                  setGroupId(nextGroup);
+                  const nextTrade = tradesInGroup(trades, nextGroup)[0]?.id ?? "";
+                  setTradeId(nextTrade);
+                  setSelectedIds(
+                    nextTrade
+                      ? ratesForTrade(rates, nextTrade).map((r) => r.id)
+                      : [],
+                  );
+                }}
+              >
+                {groups.map((g) => (
+                  <option key={g.id} value={g.id}>
+                    {groupDisplayName(g, locale)}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <p className="mt-2 text-xs text-[var(--muted)]">{t.quotes.groupHint}</p>
+
+            <label className="mt-4 block text-sm font-semibold">
+              {t.quotes.tradeLabel}
+              <select
+                className="sh-select mt-2 w-full rounded-xl border border-[var(--line)] bg-[var(--panel)] py-2.5 pl-3 text-sm font-normal text-[var(--ink)]"
+                value={tradeId}
+                onChange={(e) => {
+                  const next = e.target.value;
+                  setTradeId(next);
+                  setSelectedIds(ratesForTrade(rates, next).map((r) => r.id));
+                }}
+              >
+                {groupTrades.map((tr) => (
+                  <option key={tr.id} value={tr.id}>
+                    {tradeDisplayName(tr, locale)}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <p className="mt-2 text-xs text-[var(--muted)]">{t.quotes.tradeHint}</p>
+
+            <div className="mt-3 flex flex-wrap gap-2 text-xs">
+              <button
+                type="button"
+                className="rounded-md border border-[var(--line)] px-2 py-1"
+                onClick={selectAllRates}
+              >
+                {t.quotes.selectAllRates}
+              </button>
+              <button
+                type="button"
+                className="rounded-md border border-[var(--line)] px-2 py-1"
+                onClick={clearRateSelection}
+              >
+                {t.quotes.clearRates}
+              </button>
+              <span className="self-center text-[var(--muted)]">
+                {selectedRates.length}/{tradeRates.length} {t.quotes.ratesSelected}
+              </span>
+            </div>
+
+            <ul className="mt-3 max-h-56 space-y-2 overflow-y-auto pr-1">
+              {tradeRates.length === 0 ? (
+                <li className="text-sm text-[var(--muted)]">{t.quotes.noRatesForTrade}</li>
+              ) : (
+                tradeRates.map((rate) => (
+                  <li key={rate.id}>
+                    <label className="flex cursor-pointer items-start gap-2 rounded-lg border border-[var(--line)] bg-[var(--panel)] px-3 py-2 text-sm">
+                      <input
+                        type="checkbox"
+                        className="mt-1"
+                        checked={selectedIds.includes(rate.id)}
+                        onChange={() => toggleRate(rate.id)}
+                      />
+                      <span className="min-w-0 flex-1">
+                        <span className="font-medium text-[var(--ink)]">{rate.label}</span>
+                        <span className="mt-0.5 block text-xs text-[var(--muted)]">
+                          {rate.code} · {formatAud(rate.unitPriceExGst)} / {rate.unit}
+                        </span>
+                      </span>
+                    </label>
+                  </li>
+                ))
+              )}
+            </ul>
+          </div>
 
           <div className="rounded-xl border border-[var(--line)] bg-[var(--surface)] p-4">
             <p className="text-sm font-semibold">{t.quotes.areaTitle}</p>
@@ -192,7 +366,10 @@ export default function QuotesPage() {
             placeholder={t.quotes.placeholder}
           />
           <div className="flex flex-wrap gap-2">
-            <PrimaryButton disabled={!job.trim() || loading} onClick={run}>
+            <PrimaryButton
+              disabled={!job.trim() || loading || selectedRates.length === 0}
+              onClick={run}
+            >
               {loading ? t.common.loading : t.quotes.run}
             </PrimaryButton>
             <button
@@ -245,10 +422,14 @@ export default function QuotesPage() {
                   ))}
                 </ul>
                 <div className="border-t border-[var(--line)] pt-3">
-                  <p>Subtotal (ex GST): {formatAud(totals.ex)}</p>
-                  <p>GST (10%): {formatAud(totals.gst)}</p>
+                  <p>
+                    {t.quotes.subtotalExTax}: {formatAud(totals.ex)}
+                  </p>
+                  <p>
+                    {t.quotes.taxLabel}: {formatAud(totals.gst)}
+                  </p>
                   <p className="font-semibold">
-                    Total (inc GST): {formatAud(totals.inc)}
+                    {t.quotes.totalIncTax}: {formatAud(totals.inc)}
                   </p>
                 </div>
                 <p className="text-[var(--muted)]">{result.notesForClient}</p>
