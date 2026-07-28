@@ -51,7 +51,7 @@ export default function HomePage() {
             <p className="mt-6 max-w-xl text-lg text-[var(--muted)]">{t.heroBody}</p>
             <div className="mt-8 flex flex-wrap gap-3">
               <Link
-                href="/app"
+                href="/login"
                 className="rounded-lg bg-[var(--accent)] px-5 py-3 text-sm font-semibold text-[var(--accent-contrast)]"
               >
                 {t.ctaStart}

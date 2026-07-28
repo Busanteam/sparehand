@@ -17,6 +17,7 @@ export type Dictionary = {
   heroNote: string;
   nav: {
     dashboard: string;
+    clients: string;
     inbox: string;
     meetings: string;
     documents: string;
@@ -94,6 +95,18 @@ export type Dictionary = {
     subtotalExTax: string;
     taxLabel: string;
     totalIncTax: string;
+    statuses: { draft: string; sent: string; accepted: string; declined: string };
+    savedTitle: string;
+    savedEmpty: string;
+    filterAll: string;
+    exportAccepted: string;
+    pickClient: string;
+    clientManual: string;
+    multiTradeHint: string;
+    tradesCount: string;
+    status: string;
+    saveQuote: string;
+    assumptions: string;
   };
   trades: {
     title: string;
@@ -167,6 +180,7 @@ export type Dictionary = {
     meetings: HelpBlock;
     documents: HelpBlock;
     quotes: HelpBlock;
+    clients: HelpBlock;
     trades: HelpBlock;
     rates: HelpBlock;
     integrations: HelpBlock;
@@ -217,6 +231,42 @@ export type Dictionary = {
       other: string;
     };
   };
+  auth: {
+    title: string;
+    hint: string;
+    pin: string;
+    signIn: string;
+    signOut: string;
+    badPin: string;
+    demoUsers: string;
+    signedInAs: string;
+  };
+  clients: {
+    title: string;
+    hint: string;
+    add: string;
+    edit: string;
+    remove: string;
+    name: string;
+    email: string;
+    phone: string;
+    site: string;
+    notes: string;
+    empty: string;
+    deleteConfirm: string;
+  };
+  company: {
+    title: string;
+    hint: string;
+    businessName: string;
+    abn: string;
+    taxRate: string;
+    taxRateHint: string;
+    currency: string;
+    currencyLocale: string;
+    pdfBrandColor: string;
+    save: string;
+  };
   common: {
     language: string;
     theme: string;
@@ -236,6 +286,7 @@ export type Dictionary = {
     stepResult: string;
     mode: string;
     newItem: string;
+    cancel: string;
   };
 };
 
@@ -257,6 +308,7 @@ const enAU: Dictionary = {
     "No sign-up: this public demo stores sample data in your browser. Hire me to turn it into a private internal system with a proper database for your team.",
   nav: {
     dashboard: "Dashboard",
+    clients: "Clients",
     inbox: "Inbox triage",
     meetings: "Meeting notes",
     documents: "Docs & OCR",
@@ -335,8 +387,25 @@ const enAU: Dictionary = {
     noRatesForTrade: "No rates for this trade yet — add some on the Rate card page.",
     needRates: "Select at least one rate line for this trade.",
     subtotalExTax: "Subtotal (ex tax)",
-    taxLabel: "Tax (10%)",
+    taxLabel: "Tax ({pct}%)",
     totalIncTax: "Total (inc tax)",
+    statuses: {
+      draft: "Draft",
+      sent: "Sent",
+      accepted: "Accepted",
+      declined: "Declined",
+    },
+    savedTitle: "Saved quotes",
+    savedEmpty: "No saved quotes yet — draft one and tap Save.",
+    filterAll: "All statuses",
+    exportAccepted: "Export accepted CSV",
+    pickClient: "Client from CRM",
+    clientManual: "Type name manually…",
+    multiTradeHint: "Tick rates across specialties — one job can mix trades.",
+    tradesCount: "trades",
+    status: "Status",
+    saveQuote: "Save quote",
+    assumptions: "Assumptions checklist",
   },
   trades: {
     title: "Trades",
@@ -470,6 +539,15 @@ const enAU: Dictionary = {
         "Related trades are grouped — add more specialties under Trades.",
         "Only selected rates are sent to AI, so quotes stay focused.",
       ],
+    },
+    clients: {
+      title: "Clients",
+      steps: [
+        "Add customers and site addresses you quote often.",
+        "Open Quotes and pick a saved client.",
+        "Update notes when the job site changes.",
+      ],
+      tips: ["Clients stay in this browser until you connect a company database."],
     },
     trades: {
       title: "Trades",
@@ -618,6 +696,42 @@ const enAU: Dictionary = {
       other: "Other",
     },
   },
+  auth: {
+    title: "Staff sign-in",
+    hint: "Demo workspace roles — use a PIN below. Not production security.",
+    pin: "PIN",
+    signIn: "Sign in",
+    signOut: "Sign out",
+    badPin: "That PIN is not recognised.",
+    demoUsers: "Demo accounts",
+    signedInAs: "Signed in as",
+  },
+  clients: {
+    title: "Clients",
+    hint: "Save customers and sites so quotes stay linked.",
+    add: "Add client",
+    edit: "Edit",
+    remove: "Remove",
+    name: "Name",
+    email: "Email",
+    phone: "Phone",
+    site: "Site address",
+    notes: "Notes",
+    empty: "No clients yet.",
+    deleteConfirm: "Remove this client?",
+  },
+  company: {
+    title: "Company & tax",
+    hint: "Used on quote totals, PDF branding and accounting CSV.",
+    businessName: "Business name",
+    abn: "ABN / business number",
+    taxRate: "Tax rate (%)",
+    taxRateHint: "Demo default is 10. Change for your market.",
+    currency: "Currency code",
+    currencyLocale: "Number locale",
+    pdfBrandColor: "PDF brand colour",
+    save: "Save company settings",
+  },
   common: {
     language: "Language",
     theme: "Theme",
@@ -637,6 +751,7 @@ const enAU: Dictionary = {
     stepResult: "2. Review the draft",
     mode: "Mode",
     newItem: "New item",
+    cancel: "Cancel",
   },
 };
 
@@ -658,6 +773,7 @@ const ko: Dictionary = {
     "회원가입 없이 바로 체험할 수 있습니다(샘플 데이터는 브라우저에 저장). 고용하시면 팀용 사내 시스템과 정식 DB 설계·구축까지 진행합니다.",
   nav: {
     dashboard: "대시보드",
+    clients: "고객",
     inbox: "문의 분류",
     meetings: "회의록",
     documents: "문서·OCR",
@@ -735,8 +851,25 @@ const ko: Dictionary = {
     noRatesForTrade: "이 직종에 단가가 없습니다. 단가표에서 추가하세요.",
     needRates: "이 직종에서 단가 항목을 하나 이상 선택하세요.",
     subtotalExTax: "소계 (세금 별도)",
-    taxLabel: "세금 (10%)",
+    taxLabel: "세금 ({pct}%)",
     totalIncTax: "합계 (세금 포함)",
+    statuses: {
+      draft: "초안",
+      sent: "발송",
+      accepted: "수락",
+      declined: "거절",
+    },
+    savedTitle: "저장된 견적",
+    savedEmpty: "아직 저장된 견적이 없습니다. 초안을 만든 뒤 저장하세요.",
+    filterAll: "전체 상태",
+    exportAccepted: "수락 견적 CSV",
+    pickClient: "CRM 고객 선택",
+    clientManual: "이름 직접 입력…",
+    multiTradeHint: "여러 직종 단가를 함께 선택할 수 있습니다.",
+    tradesCount: "직종",
+    status: "상태",
+    saveQuote: "견적 저장",
+    assumptions: "가정 체크리스트",
   },
   trades: {
     title: "직종",
@@ -870,6 +1003,15 @@ const ko: Dictionary = {
         "관련 직종은 카테고리로 묶여 있습니다 — ‘직종’에서 세부 직종을 추가하세요.",
         "선택한 단가만 AI에 전달되어 견적이 깔끔해집니다.",
       ],
+    },
+    clients: {
+      title: "고객",
+      steps: [
+        "자주 견적 내는 고객·현장 주소를 등록합니다.",
+        "견적에서 저장한 고객을 고릅니다.",
+        "현장이 바뀌면 메모를 갱신합니다.",
+      ],
+      tips: ["고객 데이터는 브라우저에 저장됩니다. 회사 DB 연동은 고용 빌드에서 가능합니다."],
     },
     trades: {
       title: "직종",
@@ -1014,6 +1156,42 @@ const ko: Dictionary = {
       other: "기타",
     },
   },
+  auth: {
+    title: "직원 로그인",
+    hint: "데모용 역할 PIN입니다. 실제 보안 로그인이 아닙니다.",
+    pin: "PIN",
+    signIn: "로그인",
+    signOut: "로그아웃",
+    badPin: "PIN이 올바르지 않습니다.",
+    demoUsers: "데모 계정",
+    signedInAs: "로그인",
+  },
+  clients: {
+    title: "고객",
+    hint: "고객·현장을 저장해 견적과 연결합니다.",
+    add: "고객 추가",
+    edit: "수정",
+    remove: "삭제",
+    name: "이름",
+    email: "이메일",
+    phone: "전화",
+    site: "현장 주소",
+    notes: "메모",
+    empty: "등록된 고객이 없습니다.",
+    deleteConfirm: "이 고객을 삭제할까요?",
+  },
+  company: {
+    title: "회사 · 세금",
+    hint: "견적 합계, PDF 브랜딩, 회계 CSV에 사용됩니다.",
+    businessName: "상호",
+    abn: "사업자번호 / ABN",
+    taxRate: "세율 (%)",
+    taxRateHint: "데모 기본은 10입니다. 시장에 맞게 바꾸세요.",
+    currency: "통화 코드",
+    currencyLocale: "숫자 로케일",
+    pdfBrandColor: "PDF 브랜드 색",
+    save: "회사 설정 저장",
+  },
   common: {
     language: "언어",
     theme: "테마",
@@ -1033,6 +1211,7 @@ const ko: Dictionary = {
     stepResult: "2. 초안 검토",
     mode: "모드",
     newItem: "새 항목",
+    cancel: "취소",
   },
 };
 

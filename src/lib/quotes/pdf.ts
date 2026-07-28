@@ -1,18 +1,38 @@
 import { jsPDF } from "jspdf";
 import type { QuoteResult } from "@/lib/ai/schemas";
 import {
-  formatAud,
+  formatMoney,
   gstComponentFromEx,
   roundMoney,
 } from "@/lib/money/gst";
 import { disclaimerForLocale } from "@/lib/quotes/area";
 
+function hexToRgb(hex: string): [number, number, number] {
+  const clean = hex.replace("#", "");
+  const full =
+    clean.length === 3
+      ? clean
+          .split("")
+          .map((c) => c + c)
+          .join("")
+      : clean.padEnd(6, "0").slice(0, 6);
+  const n = Number.parseInt(full, 16);
+  if (Number.isNaN(n)) return [15, 118, 110];
+  return [(n >> 16) & 255, (n >> 8) & 255, n & 255];
+}
+
 export function buildQuotePdf(input: {
   businessName: string;
+  abn?: string;
   clientName: string;
   quote: QuoteResult;
   areaSqm?: number;
   locale?: string;
+  taxRate?: number;
+  currency?: string;
+  currencyLocale?: string;
+  brandColor?: string;
+  status?: string;
   labels?: {
     subtotalExTax: string;
     taxLabel: string;
@@ -20,23 +40,42 @@ export function buildQuotePdf(input: {
   };
 }) {
   const doc = new jsPDF();
+  const taxRate = input.taxRate ?? 0.1;
+  const moneyOpts = {
+    currency: input.currency ?? "AUD",
+    locale: input.currencyLocale ?? "en-AU",
+  };
+  const money = (n: number) => formatMoney(n, moneyOpts);
   const ex = input.quote.lineItems.reduce(
     (sum, line) => sum + line.quantity * line.unitPriceExGst,
     0,
   );
-  const gst = gstComponentFromEx(ex);
+  const gst = gstComponentFromEx(ex, taxRate);
   const inc = roundMoney(ex + gst);
   const locale = input.locale ?? "en-AU";
   const ko = locale.startsWith("ko");
   const labels = input.labels ?? {
     subtotalExTax: ko ? "소계 (세금 별도)" : "Subtotal (ex tax)",
-    taxLabel: ko ? "세금 (10%)" : "Tax (10%)",
+    taxLabel: ko
+      ? `세금 (${Math.round(taxRate * 100)}%)`
+      : `Tax (${Math.round(taxRate * 100)}%)`,
     totalIncTax: ko ? "합계 (세금 포함)" : "Total (inc tax)",
   };
+  const brand = hexToRgb(input.brandColor ?? "#0f766e");
 
   let y = 18;
+  doc.setFillColor(brand[0], brand[1], brand[2]);
+  doc.rect(0, 0, 210, 8, "F");
   doc.setFontSize(16);
-  doc.text(ko ? "SpareHand — 견적 초안" : "SpareHand — Quote DRAFT", 14, y);
+  doc.setTextColor(brand[0], brand[1], brand[2]);
+  const statusSuffix = input.status ? ` (${input.status})` : "";
+  doc.text(
+    ko
+      ? `SpareHand — 견적 초안${statusSuffix}`
+      : `SpareHand — Quote DRAFT${statusSuffix}`,
+    14,
+    y,
+  );
   y += 8;
   doc.setFontSize(9);
   doc.setTextColor(150, 60, 20);
@@ -48,7 +87,15 @@ export function buildQuotePdf(input: {
   doc.setFontSize(11);
   doc.text(`${ko ? "발신" : "From"}: ${input.businessName}`, 14, y);
   y += 6;
-  doc.text(`${ko ? "수신" : "To"}: ${input.clientName || (ko ? "고객" : "Client")}`, 14, y);
+  if (input.abn) {
+    doc.text(`${ko ? "사업자번호" : "ABN / Biz no."}: ${input.abn}`, 14, y);
+    y += 6;
+  }
+  doc.text(
+    `${ko ? "수신" : "To"}: ${input.clientName || (ko ? "고객" : "Client")}`,
+    14,
+    y,
+  );
   y += 6;
   doc.text(`${ko ? "작업" : "Job"}: ${input.quote.jobTitle}`, 14, y);
   y += 6;
@@ -63,7 +110,7 @@ export function buildQuotePdf(input: {
   y += 6;
   for (const line of input.quote.lineItems) {
     const amount = roundMoney(line.quantity * line.unitPriceExGst);
-    const row = `${line.description} — ${line.quantity} ${line.unit} × ${formatAud(line.unitPriceExGst)} = ${formatAud(amount)}`;
+    const row = `${line.description} — ${line.quantity} ${line.unit} × ${money(line.unitPriceExGst)} = ${money(amount)}`;
     const wrapped = doc.splitTextToSize(row, 180);
     doc.text(wrapped, 14, y);
     y += wrapped.length * 5 + 2;
@@ -74,11 +121,13 @@ export function buildQuotePdf(input: {
   }
 
   y += 4;
-  doc.text(`${labels.subtotalExTax}: ${formatAud(ex)}`, 14, y);
+  doc.text(`${labels.subtotalExTax}: ${money(ex)}`, 14, y);
   y += 6;
-  doc.text(`${labels.taxLabel}: ${formatAud(gst)}`, 14, y);
+  doc.text(`${labels.taxLabel}: ${money(gst)}`, 14, y);
   y += 6;
-  doc.text(`${labels.totalIncTax}: ${formatAud(inc)}`, 14, y);
+  doc.setTextColor(brand[0], brand[1], brand[2]);
+  doc.text(`${labels.totalIncTax}: ${money(inc)}`, 14, y);
+  doc.setTextColor(0);
   y += 10;
   doc.text(ko ? "메모" : "Notes", 14, y);
   y += 6;

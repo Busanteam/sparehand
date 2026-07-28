@@ -1,22 +1,46 @@
-/** Tax helpers for the demo quote flow (default 10%, GST-style). */
+/** Tax and money formatting helpers (company-configurable). */
 
-export const GST_RATE = 0.1;
+export const DEFAULT_TAX_RATE = 0.1;
 
-export function exGstToIncGst(exGst: number): number {
-  return roundMoney(exGst * (1 + GST_RATE));
+export function exGstToIncGst(
+  exGst: number,
+  taxRate: number = DEFAULT_TAX_RATE,
+): number {
+  return roundMoney(exGst * (1 + taxRate));
 }
 
-export function gstComponentFromEx(exGst: number): number {
-  return roundMoney(exGst * GST_RATE);
+export function gstComponentFromEx(
+  exGst: number,
+  taxRate: number = DEFAULT_TAX_RATE,
+): number {
+  return roundMoney(exGst * taxRate);
 }
 
 export function roundMoney(value: number): number {
   return Math.round((value + Number.EPSILON) * 100) / 100;
 }
 
-export function formatAud(value: number): string {
-  return new Intl.NumberFormat("en-AU", {
+export type MoneyFormatOptions = {
+  currency?: string;
+  locale?: string;
+};
+
+export function formatMoney(
+  value: number,
+  options: MoneyFormatOptions = {},
+): string {
+  const currency = options.currency ?? "AUD";
+  const locale = options.locale ?? "en-AU";
+  return new Intl.NumberFormat(locale, {
     style: "currency",
-    currency: "AUD",
+    currency,
   }).format(value);
 }
+
+/** @deprecated Prefer formatMoney with company settings. */
+export function formatAud(value: number): string {
+  return formatMoney(value, { currency: "AUD", locale: "en-AU" });
+}
+
+/** Keep GST_RATE alias for older call sites / tests. */
+export const GST_RATE = DEFAULT_TAX_RATE;

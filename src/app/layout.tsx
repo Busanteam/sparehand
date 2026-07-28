@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Manrope, Syne } from "next/font/google";
+import { AuthProvider } from "@/components/auth-provider";
 import { I18nProvider } from "@/components/i18n-provider";
 import { ThemeProvider } from "@/components/theme-provider";
 import "./globals.css";
@@ -92,7 +93,9 @@ export default function RootLayout({
       </head>
       <body className="min-h-full bg-[var(--bg)] antialiased">
         <ThemeProvider>
-          <I18nProvider>{children}</I18nProvider>
+          <I18nProvider>
+            <AuthProvider>{children}</AuthProvider>
+          </I18nProvider>
         </ThemeProvider>
       </body>
     </html>
