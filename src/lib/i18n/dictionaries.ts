@@ -315,7 +315,7 @@ const enAU: Dictionary = {
     quotes: "Quotes",
     trades: "Trades",
     rates: "Rate card",
-    integrations: "Integrations",
+    integrations: "Email integration",
     settings: "AI key",
   },
   dashboard: {
@@ -440,8 +440,8 @@ const enAU: Dictionary = {
     manageTradesHint: "Need a new trade?",
   },
   integrations: {
-    title: "Integrations",
-    hint: "Simple connections that save admin time — without forcing a big IT project.",
+    title: "Email integration",
+    hint: "A simple way to forward new customer emails into SpareHand — without a big IT project.",
     zapierTitle: "Connect email tools (Zapier / Make)",
     zapierBody:
       "If you already use Zapier or Make, you can send new emails into SpareHand automatically. Ask your IT person (or us) to point a webhook at this app with a shared secret.",
@@ -571,14 +571,14 @@ const enAU: Dictionary = {
       tips: ["Keep codes short (e.g. PT-WALL) so quote drafts stay tidy."],
     },
     integrations: {
-      title: "Connections",
+      title: "Email integration",
       steps: [
-        "Use the built-in tools first — no connection required.",
-        "If you want email automation later, use Zapier/Make with the webhook details shown here.",
+        "Use Inbox by pasting emails first — no email link required.",
+        "When you want new mail delivered automatically, use Zapier/Make with the webhook details here.",
         "Keep the shared secret private — treat it like a password.",
       ],
       tips: [
-        "Most small teams get value without any integration on day one.",
+        "Most small teams get value before connecting email on day one.",
       ],
     },
     settings: {
@@ -780,7 +780,7 @@ const ko: Dictionary = {
     quotes: "견적",
     trades: "직종",
     rates: "단가표",
-    integrations: "연동",
+    integrations: "이메일 연동",
     settings: "AI 키",
   },
   dashboard: {
@@ -904,8 +904,8 @@ const ko: Dictionary = {
     manageTradesHint: "새 직종이 필요하세요?",
   },
   integrations: {
-    title: "연동",
-    hint: "큰 IT 프로젝트 없이도 사무 시간을 줄일 수 있는 간단한 연결만 안내합니다.",
+    title: "이메일 연동",
+    hint: "고객 새 메일을 SpareHand로 넘기는 간단한 방법입니다. 큰 IT 프로젝트는 필요 없습니다.",
     zapierTitle: "이메일 도구 연결 (Zapier / Make)",
     zapierBody:
       "이미 Zapier나 Make를 쓰신다면, 새 이메일을 SpareHand로 자동 전달할 수 있습니다. IT 담당자(또는 저희)에게 웹훅 주소와 비밀키 설정을 요청하세요.",
@@ -1033,13 +1033,13 @@ const ko: Dictionary = {
       tips: ["코드는 짧게 (예: PT-WALL) 두면 견적 초안이 깔끔합니다."],
     },
     integrations: {
-      title: "연동",
+      title: "이메일 연동",
       steps: [
-        "기본 도구부터 쓰세요 — 연동 없이도 바로 도움이 됩니다.",
-        "나중에 이메일 자동화가 필요하면 이 페이지의 Zapier/Make 안내를 사용하세요.",
+        "먼저 문의 분류에 메일을 붙여 넣어 쓰세요 — 이메일 연결 없이도 됩니다.",
+        "새 메일을 자동으로 받고 싶으면 이 페이지의 Zapier/Make 안내를 사용하세요.",
         "공유 비밀키는 비밀번호처럼 안전하게 보관하세요.",
       ],
-      tips: ["대부분의 소규모 팀은 첫날 연동 없이도 충분합니다."],
+      tips: ["대부분의 소규모 팀은 첫날 이메일 연동 없이도 충분합니다."],
     },
     settings: {
       title: "AI 키",
