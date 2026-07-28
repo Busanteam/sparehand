@@ -17,7 +17,7 @@ export default function LoginPage() {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    if (ready && session) router.replace("/app");
+    if (ready && session) router.replace("/");
   }, [ready, session, router]);
 
   function submit(e: React.FormEvent) {
@@ -26,7 +26,7 @@ export default function LoginPage() {
       setError(t.auth.badPin);
       return;
     }
-    router.replace("/app");
+    router.replace("/");
   }
 
   if (!ready || session) {

@@ -2,6 +2,7 @@
 
 import dynamic from "next/dynamic";
 import Link from "next/link";
+import { useAuth } from "@/components/auth-provider";
 import { useI18n } from "@/components/i18n-provider";
 import { ThemeToggle } from "@/components/theme-toggle";
 import type { Locale } from "@/lib/i18n/types";
@@ -20,6 +21,8 @@ const ContactForm = dynamic(
 
 export default function HomePage() {
   const { t, locale, setLocale } = useI18n();
+  const { session, ready } = useAuth();
+  const workspaceHref = ready && session ? "/app" : "/login";
 
   return (
     <div className="relative min-h-dvh overflow-x-hidden bg-[var(--bg)]">
@@ -51,7 +54,7 @@ export default function HomePage() {
             <p className="mt-6 max-w-xl text-lg text-[var(--muted)]">{t.heroBody}</p>
             <div className="mt-8 flex flex-wrap gap-3">
               <Link
-                href="/login"
+                href={workspaceHref}
                 className="rounded-lg bg-[var(--accent)] px-5 py-3 text-sm font-semibold text-[var(--accent-contrast)]"
               >
                 {t.ctaStart}
