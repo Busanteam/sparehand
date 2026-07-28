@@ -8,6 +8,7 @@ export type HelpBlock = {
 
 export type Dictionary = {
   brand: string;
+  heroEyebrow: string;
   tagline: string;
   heroBody: string;
   ctaStart: string;
@@ -131,6 +132,9 @@ export type Dictionary = {
     hint: string;
     zapierTitle: string;
     zapierBody: string;
+    itBoxTitle: string;
+    webhookUrl: string;
+    webhookHeader: string;
     deferredTitle: string;
     deferredBody: string;
   };
@@ -170,6 +174,7 @@ export type Dictionary = {
   };
   scope: {
     title: string;
+    eyebrow: string;
     subtitle: string;
     backHome: string;
     openApp: string;
@@ -229,11 +234,14 @@ export type Dictionary = {
     emptyHint: string;
     stepInput: string;
     stepResult: string;
+    mode: string;
+    newItem: string;
   };
 };
 
 const enAU: Dictionary = {
   brand: "SpareHand",
+  heroEyebrow: "Internal systems sample · SME office",
   tagline: "Do more office work with the people you already have.",
   heroBody:
     "A working sample of an internal office system: inbox triage, meeting notes, receipt capture and tax-aware quotes — the kind of tool a solo full-stack + AI developer can build for your company.",
@@ -276,7 +284,7 @@ const enAU: Dictionary = {
     urgency: "Urgency",
     category: "Category",
     draftReply: "Draft reply",
-    actions: "Suggested actions",
+    actions: "Suggested next steps",
   },
   meetings: {
     title: "Meeting notes",
@@ -360,7 +368,7 @@ const enAU: Dictionary = {
     remove: "Remove",
     resetDefaults: "Restore starter rates",
     resetConfirm: "Replace your rate card with the multi-trade starter set?",
-    manageTradesHint: "Need a new profession?",
+    manageTradesHint: "Need a new trade?",
   },
   integrations: {
     title: "Integrations",
@@ -368,16 +376,19 @@ const enAU: Dictionary = {
     zapierTitle: "Connect email tools (Zapier / Make)",
     zapierBody:
       "If you already use Zapier or Make, you can send new emails into SpareHand automatically. Ask your IT person (or us) to point a webhook at this app with a shared secret.",
+    itBoxTitle: "For your IT person",
+    webhookUrl: "Webhook URL:",
+    webhookHeader: "Header:",
     deferredTitle: "Not required to get value today",
     deferredBody:
       "Heavy desktop robots, live Excel syncing, and deep Monday/ClickUp rebuilds are not part of this simple starter. Most owners start with Inbox, Meetings, Docs and Quotes.",
   },
   settings: {
     title: "Your AI key",
-    hint: "SpareHand is the workspace. Your company brings the AI brain — so you keep control of cost and provider.",
+    hint: "SpareHand is the shared workspace. Your company brings the AI brain — so you keep control of cost and provider.",
     brainTitle: "Bring your own AI (BYOK)",
     brainBody:
-      "Paste the API key from the AI provider your business already uses (OpenAI or an OpenAI-compatible endpoint). We do not charge AI usage per company — your key pays for your own usage.",
+      "Paste the API key from the AI provider your business already uses (OpenAI or an OpenAI-compatible endpoint). We do not charge AI usage per company — usage is billed to your own key.",
     apiKey: "API key",
     model: "Model name",
     baseUrl: "API base URL (optional)",
@@ -501,13 +512,14 @@ const enAU: Dictionary = {
         "Save, then try Inbox or Quotes — drafts will use your key.",
       ],
       tips: [
-        "Each company pays its own AI bill — SpareHand is the shared workspace body.",
+        "Each company pays its own AI bill — SpareHand is the shared workspace.",
         "Clear the key on shared computers when you finish.",
       ],
     },
   },
   scope: {
     title: "What SpareHand covers",
+    eyebrow: "Portfolio sample · hire for production",
     subtitle:
       "This public page is a short working sample. Hire me to build a private internal system for your company — including database design and setup.",
     backHome: "Back to home",
@@ -586,7 +598,7 @@ const enAU: Dictionary = {
     namePlaceholder: "Your name or company",
     email: "Email",
     emailPlaceholder: "you@company.com",
-    topicLabel: "Inquiry type",
+    topicLabel: "Enquiry type",
     topicPlaceholder: "Select a topic…",
     topicOtherLabel: "Describe your topic",
     topicOtherPlaceholder: "What is this about?",
@@ -601,7 +613,7 @@ const enAU: Dictionary = {
       starter: "Starter — small internal tool + DB",
       standard: "Standard — multi-user roles & quote/jobs",
       complex: "Complex — multi-site, integrations, reporting",
-      hire: "Hiring / employment inquiry",
+      hire: "Hiring / employment enquiry",
       collab: "Collaboration or consulting",
       other: "Other",
     },
@@ -623,11 +635,14 @@ const enAU: Dictionary = {
     emptyHint: "Your draft will appear here after you run the tool.",
     stepInput: "1. Your input",
     stepResult: "2. Review the draft",
+    mode: "Mode",
+    newItem: "New item",
   },
 };
 
 const ko: Dictionary = {
   brand: "SpareHand",
+  heroEyebrow: "사내 시스템 샘플 · SME 사무",
   tagline: "지금 있는 인력으로 사무 생산성을 끌어올리세요.",
   heroBody:
     "사내 사무 시스템의 동작 샘플입니다. 문의 분류, 회의록, 영수증 OCR, 세금 반영 견적까지 — 풀스택·AI 개발자를 고용하면 귀사 업무에 맞춰 이런 시스템을 구축할 수 있습니다.",
@@ -647,7 +662,7 @@ const ko: Dictionary = {
     meetings: "회의록",
     documents: "문서·OCR",
     quotes: "견적",
-    trades: "직군",
+    trades: "직종",
     rates: "단가표",
     integrations: "연동",
     settings: "AI 키",
@@ -664,13 +679,13 @@ const ko: Dictionary = {
   },
   inbox: {
     title: "문의 분류",
-    hint: "고객 이메일·문자를 붙여넣으면 긴급도, 유형, 답장 초안, 다음 액션을 만듭니다.",
+    hint: "고객 이메일·문자를 붙여넣으면 긴급도, 유형, 답장 초안, 다음 단계를 만듭니다.",
     placeholder: "문의 내용을 붙여넣으세요…",
     run: "AI로 분류",
     urgency: "긴급도",
     category: "유형",
     draftReply: "답장 초안",
-    actions: "추천 액션",
+    actions: "추천 다음 단계",
   },
   meetings: {
     title: "회의록",
@@ -679,7 +694,7 @@ const ko: Dictionary = {
     run: "요약하기",
     summary: "요약",
     decisions: "결정사항",
-    actionItems: "액션 아이템",
+    actionItems: "할 일",
   },
   documents: {
     title: "문서·OCR",
@@ -712,7 +727,7 @@ const ko: Dictionary = {
       "본 견적은 협의용 초안입니다. 현장 실측, 자재, 접근 조건, 변경에 따라 금액이 바뀔 수 있습니다. 복사/PDF에도 같은 고지가 포함됩니다.",
     tradeLabel: "세부 직종",
     tradeHint: "카테고리를 고른 뒤 세부 직종을 선택하세요. 해당 직종의 단가만 보입니다.",
-    groupLabel: "직군 카테고리",
+    groupLabel: "카테고리",
     groupHint: "관련 직종을 묶어 둡니다 (예: 실내 마감).",
     selectAllRates: "전체 선택",
     clearRates: "선택 해제",
@@ -724,7 +739,7 @@ const ko: Dictionary = {
     totalIncTax: "합계 (세금 포함)",
   },
   trades: {
-    title: "직군",
+    title: "직종",
     hint: "직종은 카테고리 아래에 둡니다. 회사가 견적 내는 세부 직종을 추가하세요.",
     add: "직종 추가",
     addTitle: "새 직종",
@@ -734,8 +749,8 @@ const ko: Dictionary = {
     preview: "표시 이름",
     remove: "삭제",
     deleteConfirm: "이 직종을 삭제할까요? 연결된 단가는 다른 직종으로 옮깁니다.",
-    resetDefaults: "기본 직군 복원",
-    resetConfirm: "직군 목록을 기본 세트로 바꿀까요?",
+    resetDefaults: "기본 직종 복원",
+    resetConfirm: "직종 목록을 기본 세트로 바꿀까요?",
   },
   rates: {
     title: "단가표",
@@ -747,13 +762,13 @@ const ko: Dictionary = {
     label: "설명",
     unit: "단위",
     unitPrice: "단가 (세금 별도)",
-    trade: "직군",
+    trade: "직종",
     filterTrade: "필터",
-    allTrades: "전체 직군",
+    allTrades: "전체 직종",
     remove: "삭제",
     resetDefaults: "기본 단가 복원",
-    resetConfirm: "단가표를 여러 직군 기본 세트로 바꿀까요?",
-    manageTradesHint: "새 직군이 필요하면",
+    resetConfirm: "단가표를 여러 직종 기본 세트로 바꿀까요?",
+    manageTradesHint: "새 직종이 필요하세요?",
   },
   integrations: {
     title: "연동",
@@ -761,16 +776,19 @@ const ko: Dictionary = {
     zapierTitle: "이메일 도구 연결 (Zapier / Make)",
     zapierBody:
       "이미 Zapier나 Make를 쓰신다면, 새 이메일을 SpareHand로 자동 전달할 수 있습니다. IT 담당자(또는 저희)에게 웹훅 주소와 비밀키 설정을 요청하세요.",
+    itBoxTitle: "IT 담당자용",
+    webhookUrl: "웹훅 URL:",
+    webhookHeader: "헤더:",
     deferredTitle: "지금은 없어도 됩니다",
     deferredBody:
       "데스크톱 자동화 로봇, 엑셀 실시간 동기화, Monday/ClickUp 대규모 개편은 이 시작용 툴 범위가 아닙니다. 대부분 사장님은 문의·회의·문서·견적부터 시작하시면 됩니다.",
   },
   settings: {
     title: "AI 키 설정",
-    hint: "SpareHand는 워크스페이스(몸체)입니다. AI 두뇌는 각 회사가 쓰는 키로 연결해, 비용과 제공사를 직접 통제합니다.",
+    hint: "SpareHand는 공통 워크스페이스입니다. AI 두뇌는 각 회사가 쓰는 키로 연결해, 비용과 제공사를 직접 통제합니다.",
     brainTitle: "내 AI 키 연결 (BYOK)",
     brainBody:
-      "회사에서 이미 쓰는 AI 제공사(OpenAI 또는 OpenAI 호환)의 API 키를 붙여넣으세요. 회사마다 AI 사용료를 저희가 대신 결제하지 않습니다 — 각 회사 키가 본인 사용량만 청구합니다.",
+      "회사에서 이미 쓰는 AI 제공사(OpenAI 또는 OpenAI 호환)의 API 키를 붙여넣으세요. 회사마다 AI 사용료를 저희가 대신 결제하지 않습니다 — 사용 요금은 각 회사 키로 청구됩니다.",
     apiKey: "API 키",
     model: "모델 이름",
     baseUrl: "API Base URL (선택)",
@@ -800,7 +818,7 @@ const ko: Dictionary = {
         "고객에게 보내기 전에 초안을 꼭 검토합니다.",
       ],
       tips: [
-        "문의가 밀렸다면 Inbox부터 시작하세요.",
+        "문의가 밀렸다면 ‘문의 분류’부터 시작하세요.",
         "견적을 쓰려면 단가표를 먼저 한 번 저장해 두세요.",
       ],
     },
@@ -849,12 +867,12 @@ const ko: Dictionary = {
         "초안 확인 후 복사 또는 PDF (고지 포함).",
       ],
       tips: [
-        "관련 직종은 카테고리로 묶여 있습니다 — ‘직군’에서 세부 직종을 추가하세요.",
+        "관련 직종은 카테고리로 묶여 있습니다 — ‘직종’에서 세부 직종을 추가하세요.",
         "선택한 단가만 AI에 전달되어 견적이 깔끔해집니다.",
       ],
     },
     trades: {
-      title: "직군",
+      title: "직종",
       steps: [
         "카테고리와 세부 직종 기본 목록을 확인합니다.",
         "견적 내는 세부 직종을 알맞은 카테고리 아래에 추가합니다.",
@@ -865,7 +883,7 @@ const ko: Dictionary = {
     rates: {
       title: "단가표",
       steps: [
-        "직군으로 필터해 목록을 좁힙니다.",
+        "직종으로 필터해 목록을 좁힙니다.",
         "인건비·자재 항목을 추가하고, 면적 작업은 단위를 m²로 둡니다.",
         "저장해 견적에서 쓰이게 합니다.",
         "필요하면 CSV로 가져오기/내보내기 합니다.",
@@ -890,13 +908,14 @@ const ko: Dictionary = {
         "저장한 뒤 문의/견적 도구를 실행하면 회사 키로 초안이 만들어집니다.",
       ],
       tips: [
-        "AI 비용은 각 회사가 부담합니다 — SpareHand는 공통 워크스페이스 몸체입니다.",
+        "AI 비용은 각 회사가 부담합니다 — SpareHand는 공통 워크스페이스입니다.",
         "공용 PC에서는 작업 후 키를 삭제하세요.",
       ],
     },
   },
   scope: {
     title: "SpareHand가 보여주는 것",
+    eyebrow: "포트폴리오 샘플 · 고용 시 상용 구축",
     subtitle:
       "공개 페이지는 짧은 동작 샘플입니다. 고용하시면 귀사 전용 사내 시스템을 만들고, DB 설계·구축까지 함께 진행할 수 있습니다.",
     backHome: "홈으로",
@@ -913,7 +932,7 @@ const ko: Dictionary = {
       },
       {
         title: "회의 메모 정리",
-        body: "거친 메모를 요약·결정사항·액션 아이템으로 바꿉니다.",
+        body: "거친 메모를 요약·결정사항·할 일로 바꿉니다.",
       },
       {
         title: "영수증·서류 읽기",
@@ -988,7 +1007,7 @@ const ko: Dictionary = {
     error: "전송에 실패했습니다. 아래 메일로 직접 보내 주세요:",
     topics: {
       starter: "스타터 — 소형 사내 툴 + DB",
-      standard: "스탠다드 — 다인·역할·견적/작업",
+      standard: "스탠다드 — 다중 사용자·역할·견적/작업",
       complex: "복잡 — 다지점·연동·리포트",
       hire: "채용 / 고용 문의",
       collab: "협업 · 컨설팅",
@@ -1012,6 +1031,8 @@ const ko: Dictionary = {
     emptyHint: "도구를 실행하면 초안이 여기에 나타납니다.",
     stepInput: "1. 입력",
     stepResult: "2. 초안 검토",
+    mode: "모드",
+    newItem: "새 항목",
   },
 };
 

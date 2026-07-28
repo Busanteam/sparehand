@@ -68,7 +68,7 @@ export default function RatesPage() {
         id: crypto.randomUUID(),
         tradeId,
         code: `NEW-${prev.length + 1}`,
-        label: "New item",
+        label: t.common.newItem,
         unit: "each",
         unitPriceExGst: 0,
       },

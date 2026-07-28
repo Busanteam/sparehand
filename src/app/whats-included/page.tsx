@@ -40,9 +40,7 @@ export default function WhatsIncludedPage() {
 
       <main className="mx-auto max-w-5xl px-6 pb-16">
         <p className="text-sm font-semibold tracking-[0.16em] text-[var(--accent)] uppercase">
-          {locale.startsWith("ko")
-            ? "포트폴리오 샘플 · 고용 시 상용 구축"
-            : "Portfolio sample · hire for production"}
+          {s.eyebrow}
         </p>
         <h1 className="mt-2 max-w-3xl font-[family-name:var(--font-display)] text-4xl tracking-tight sm:text-5xl">
           {s.title}

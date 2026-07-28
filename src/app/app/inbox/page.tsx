@@ -72,7 +72,9 @@ export default function InboxPage() {
             ) : (
               <div className="space-y-4 text-sm">
                 {mode ? (
-                  <p className="text-xs uppercase tracking-wide text-[var(--muted)]">Mode: {mode}</p>
+                  <p className="text-xs uppercase tracking-wide text-[var(--muted)]">
+                    {t.common.mode}: {mode}
+                  </p>
                 ) : null}
                 <div>
                   <p className="font-semibold">{t.inbox.urgency}</p>

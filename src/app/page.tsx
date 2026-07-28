@@ -43,7 +43,7 @@ export default function HomePage() {
         <div className="mx-auto grid max-w-6xl gap-10 px-6 pb-10 pt-10 lg:grid-cols-[1.1fr_0.9fr] lg:items-end">
           <div>
             <p className="mb-4 text-sm font-semibold tracking-[0.18em] text-[var(--accent)] uppercase">
-              Internal systems sample · SME office
+              {t.heroEyebrow}
             </p>
             <h1 className="max-w-xl font-[family-name:var(--font-display)] text-5xl leading-[1.05] tracking-tight sm:text-6xl">
               {t.tagline}

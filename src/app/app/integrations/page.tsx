@@ -21,12 +21,13 @@ export default function IntegrationsPage() {
             {t.integrations.zapierBody}
           </p>
           <div className="mt-4 rounded-xl bg-[var(--panel)] p-4 text-sm text-[var(--ink)]/90">
-            <p className="font-medium">For your IT person</p>
+            <p className="font-medium">{t.integrations.itBoxTitle}</p>
             <p className="mt-2 text-[var(--muted)]">
-              Webhook URL: <code className="text-[var(--accent)]">/api/webhooks/inbound</code>
+              {t.integrations.webhookUrl}{" "}
+              <code className="text-[var(--accent)]">/api/webhooks/inbound</code>
             </p>
             <p className="mt-1 text-[var(--muted)]">
-              Header: <code>x-sparehand-secret</code>
+              {t.integrations.webhookHeader} <code>x-sparehand-secret</code>
             </p>
           </div>
         </ResultCard>
