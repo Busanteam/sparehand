@@ -11,8 +11,10 @@
     "start": "next start",
     "lint": "eslint",
     "typecheck": "tsc --noEmit",
-    "test": "tsx --tsconfig tsconfig.json --test \"src/lib/**/*.test.ts\""
+    "test": "tsx --tsconfig tsconfig.json --test \"src/lib/**/*.test.ts\"",
+    "audit:deps": "npm audit --omit=dev"
   },
+
   "dependencies": {
     "jspdf": "^4.2.1",
     "lucide-react": "^1.26.0",

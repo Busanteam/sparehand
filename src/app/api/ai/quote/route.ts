@@ -1,35 +1,50 @@
 import { NextResponse } from "next/server";
 import { openAiOptionsFromRequest } from "@/lib/ai/client";
 import { runQuoteDraft } from "@/lib/ai/pipelines";
-import type { RateItem } from "@/lib/ai/schemas";
+import { rateLimit } from "@/lib/api/rate-limit";
+import { quoteBodySchema, zodErrorMessage } from "@/lib/api/schemas";
 import { calcAreaSqm } from "@/lib/quotes/area";
 
 export async function POST(request: Request) {
-  const body = (await request.json()) as {
-    job?: string;
-    clientName?: string;
-    rates?: RateItem[];
-    tradeName?: string;
-    locale?: string;
-    lengthM?: number;
-    widthM?: number;
-    areaSqm?: number;
-  };
-  if (!body.job?.trim()) {
-    return NextResponse.json({ error: "job required" }, { status: 400 });
-  }
-  if (!body.rates?.length) {
-    return NextResponse.json({ error: "rates required" }, { status: 400 });
-  }
-  const areaSqm = calcAreaSqm(body.lengthM, body.widthM, body.areaSqm);
-  const { result, mode } = await runQuoteDraft({
-    job: body.job,
-    clientName: body.clientName ?? "",
-    rates: body.rates,
-    tradeName: body.tradeName,
-    locale: body.locale ?? "en-AU",
-    areaSqm,
-    ai: openAiOptionsFromRequest(request),
+  const limited = rateLimit(request, {
+    prefix: "ai-quote",
+    limit: 20,
+    windowMs: 60_000,
   });
-  return NextResponse.json({ result, mode, areaSqm });
+  if (limited) return limited;
+
+  let json: unknown;
+  try {
+    json = await request.json();
+  } catch {
+    return NextResponse.json({ error: "invalid_json" }, { status: 400 });
+  }
+  const parsed = quoteBodySchema.safeParse(json);
+  if (!parsed.success) {
+    return NextResponse.json(
+      { error: zodErrorMessage(parsed.error) },
+      { status: 400 },
+    );
+  }
+
+  try {
+    const areaSqm = calcAreaSqm(
+      parsed.data.lengthM,
+      parsed.data.widthM,
+      parsed.data.areaSqm,
+    );
+    const { result, mode } = await runQuoteDraft({
+      job: parsed.data.job,
+      clientName: parsed.data.clientName ?? "",
+      rates: parsed.data.rates,
+      tradeName: parsed.data.tradeName,
+      locale: parsed.data.locale ?? "en-AU",
+      areaSqm,
+      ai: openAiOptionsFromRequest(request),
+    });
+    return NextResponse.json({ result, mode, areaSqm });
+  } catch (err) {
+    console.error("[api/ai/quote]", err instanceof Error ? err.message : "error");
+    return NextResponse.json({ error: "quote_failed" }, { status: 500 });
+  }
 }

@@ -23,6 +23,18 @@ export default function DocumentsPage() {
 
   function onFile(file: File | null) {
     if (!file) return;
+    // ~4MB raw → keep data URL under server zod limit
+    if (file.size > 4 * 1024 * 1024) {
+      setError(t.documents.tooLarge);
+      setPreview("");
+      return;
+    }
+    if (!file.type.startsWith("image/")) {
+      setError(t.documents.badType);
+      setPreview("");
+      return;
+    }
+    setError("");
     const reader = new FileReader();
     reader.onload = () => setPreview(String(reader.result || ""));
     reader.readAsDataURL(file);

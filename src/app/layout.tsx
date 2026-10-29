@@ -62,6 +62,13 @@ export const metadata: Metadata = {
       "AI drafts for enquiries, meetings, receipts and quotes. Review before you send.",
     images: ["/og.jpg"],
   },
+  alternates: {
+    canonical: siteUrl,
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 const themeInitScript = `

@@ -65,6 +65,8 @@ export type Dictionary = {
     total: string;
     gst: string;
     lines: string;
+    tooLarge: string;
+    badType: string;
   };
   quotes: {
     title: string;
@@ -148,6 +150,7 @@ export type Dictionary = {
     itBoxTitle: string;
     webhookUrl: string;
     webhookHeader: string;
+    webhookTimestamp: string;
     deferredTitle: string;
     deferredBody: string;
   };
@@ -356,6 +359,8 @@ const enAU: Dictionary = {
     total: "Total",
     gst: "Tax",
     lines: "Line items",
+    tooLarge: "Image must be 4MB or smaller.",
+    badType: "Please upload an image file.",
   },
   quotes: {
     title: "Quote drafts",
@@ -448,6 +453,7 @@ const enAU: Dictionary = {
     itBoxTitle: "For your IT person",
     webhookUrl: "Webhook URL:",
     webhookHeader: "Header:",
+    webhookTimestamp: "Optional (replay defence):",
     deferredTitle: "Not required to get value today",
     deferredBody:
       "Heavy desktop robots, live Excel syncing, and deep Monday/ClickUp rebuilds are not part of this simple starter. Most owners start with Inbox, Meetings, Docs and Quotes.",
@@ -821,6 +827,8 @@ const ko: Dictionary = {
     total: "합계",
     gst: "세금",
     lines: "품목",
+    tooLarge: "이미지는 4MB 이하여야 합니다.",
+    badType: "이미지 파일만 올릴 수 있습니다.",
   },
   quotes: {
     title: "견적 초안",
@@ -912,6 +920,7 @@ const ko: Dictionary = {
     itBoxTitle: "IT 담당자용",
     webhookUrl: "웹훅 URL:",
     webhookHeader: "헤더:",
+    webhookTimestamp: "선택(재전송 방어):",
     deferredTitle: "지금은 없어도 됩니다",
     deferredBody:
       "데스크톱 자동화 로봇, 엑셀 실시간 동기화, Monday/ClickUp 대규모 개편은 이 시작용 툴 범위가 아닙니다. 대부분 사장님은 문의·회의·문서·견적부터 시작하시면 됩니다.",

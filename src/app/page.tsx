@@ -100,6 +100,11 @@ export default function HomePage() {
         </div>
 
         <ContactForm />
+        <footer className="mx-auto max-w-6xl border-t border-[var(--line)] px-6 py-8 text-sm text-[var(--muted)]">
+          <Link href="/privacy" className="text-[var(--accent)] hover:underline">
+            {locale.startsWith("ko") ? "개인정보 안내" : "Privacy notice"}
+          </Link>
+        </footer>
       </main>
     </div>
   );

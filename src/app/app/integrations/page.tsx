@@ -29,6 +29,10 @@ export default function IntegrationsPage() {
             <p className="mt-1 text-[var(--muted)]">
               {t.integrations.webhookHeader} <code>x-sparehand-secret</code>
             </p>
+            <p className="mt-1 text-[var(--muted)]">
+              {t.integrations.webhookTimestamp}{" "}
+              <code>x-sparehand-timestamp</code>
+            </p>
           </div>
         </ResultCard>
         <ResultCard>

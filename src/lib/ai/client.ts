@@ -20,6 +20,8 @@ export function getOpenAI(options: OpenAiOptions = {}) {
   if (!apiKey) return null;
   return new OpenAI({
     apiKey,
+    timeout: 60_000,
+    maxRetries: 1,
     ...(baseUrl ? { baseURL: baseUrl } : {}),
   });
 }
